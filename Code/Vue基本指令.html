@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue基本指令</title>
+    <style>
+        [v-cloak]{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- v-cloak能够解决插值表达式闪烁问题 -->
+        <p v-cloak>+++++{{msg}}-----</p>
+        <!-- v-text和差值表示基本没有什么区别 -->
+        <h4 v-text="msg">+++---</h4>
+        <!-- 1.默认v-text是没有闪烁问题的
+             2.v-cloak只替换自身占位符 并不清空内容，v-text会覆盖元素中原本内容 -->
+        
+        <!-- v-html是以html格式解析h1标签  -->
+        <div>{{message}}</div>
+        <div v-text="message"></div>
+        <div v-html="message"></div>
+
+        <!-- v-bind是提供绑定属性的指令 mytitle当作javascript变量进行字符串拼接
+         v-bind中可以写合法的js表达式 其中v-bind:经常可以省略成: -->
+        <!-- <input type="button" value="按钮" v-bind:title="mytitle + 123 "> -->
+        <input type="button" value="v-bind" :title="mytitle + 123 ">
+
+        <!-- v-on 省略成@ 事件绑定机制 methods属性中定义当前Vue实例所有可用的方法 mouseover等同理 -->
+        <input type="button" value="v-on" @click="show">
+
+    </div>
+    
+    <script src="lib/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"123",
+                message:'<h1>哈哈哈哈 我是一个大大的H1!</h1>',
+                mytitle:"自定义TITLE"
+            },
+            methods:{
+                show:function(){
+                    alert('Hello World!')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

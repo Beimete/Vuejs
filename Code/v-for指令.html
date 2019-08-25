@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for指令</title>
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <p v-for="(item, i) in list1">索引值：{{i}} --- 每一项：{{item}}</p> -->
+        <!-- <P v-for="(user, i) in list2">ID:{{user.id}} --- Name:{{user.name}} --- Index:{{i}}</P> -->
+        <!-- 遍历对象本身的键值对时，除了val key 还可以加一个index -->
+        <!-- <p v-for="(val, key, index) in user">值：{{val}} --- 键：{{key}} --- 索引：{{index}}</p> -->
+        <!-- v-for迭代数字 起始数字从1开始 -->
+        <!-- <p v-for="i in 3">这是第{{i}}个p标签</p> -->
+
+        <div>
+            <label >ID:
+                <input type="text" v-model="id">
+            </label>
+            <label >Name:
+                    <input type="text" v-model="name">
+            </label>
+            <input type="button" value="AddIn" @click="add">
+        </div>
+        <!-- tips: 1.v-for循环的时候 key属性只能使用 number或者string;
+                   2.key使用的时候 必须使用v-bind属性进行绑定 指定key的值 确保数据唯一性；
+                   3.在组件中使用v-for循环或一些特殊的情况下，如果v-for有问题，必须在使用v-for的同时，
+                     指定唯一的number或者string类型 :key值 -->
+        <p v-for="item in list3" v-bind:key="item.id">
+            <input type="checkbox"> --- {{item.id}} --- {{item.name}}
+        </p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                id:'',
+                name: '',
+                list1:[1, 2, 3, 4, 5, 6],
+                list2:[
+                    {id:1, name:"zs"},
+                    {id:2, name:"ls"},
+                    {id:3, name:"ww"},
+                    {id:4, name:"gl"},
+                ],
+                list3:[
+                    {id:1, name:"李斯"},
+                    {id:2, name:"嬴政"},
+                    {id:3, name:"赵高"},
+                    {id:4, name:"韩非"},
+                    {id:5, name:"荀子"},
+                ],
+                user:{
+                    age:18,
+                    name:"Liu Dana",
+                    gender:"Man",
+                }
+            },
+            methods:{
+                add(){
+                    // this.list3.push({id:this.id, name:this.name});
+                    this.list3.unshift({id:this.id, name:this.name});
+                }
+            },
+        })
+    </script>
+</body>
+</html>
