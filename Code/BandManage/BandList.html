@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>品牌管理案例</title>
+    <script src="../lib/vue.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css">
+</head>
+<body>
+    <div id="app">
+       
+       <div class="panel panel-primary">
+             <div class="panel-heading">
+                   <h3 class="panel-title">ADD BANDS</h3>
+             </div>
+             <div class="panel-body" form-inline>
+                 <label>
+                     Id:
+                     <input type="text" class="form-control" v-model="id">
+                 </label>
+                 <label>
+                     Name:
+                     <input type="text" class="form-control" v-model="name">
+                 </label>
+                 <!-- 使用事件绑定机制 为元素指定处理函数的时候 加()就可以传递参数 -->
+                <input type="button" value="Add" class="btn btn-primary" @click="add">
+
+                <label>
+                        Research Keywords:
+                        <input type="text" class="form-control" v-model="keywords">
+                </label>
+             </div>
+       </div>
+       
+       <table class="table table-bordered table-hover table-striped">
+           <thead>
+               <tr>
+                   <th>Id</th>
+                   <th>Name</th>
+                   <th>Ctime</th>
+                   <th>Operation</th>
+               </tr>
+           </thead>
+           <tbody>
+               <tr v-for="item in list" :key="item.id">
+                   <td>{{ item.id }}</td>
+                   <td v-text="item.name"></td>
+                   <td>{{ item.ctime }}</td>
+                   <td>
+                       <a href="" @click.prevent='del(item.id)'>Delete</a>
+                   </td>
+               </tr>
+           </tbody>
+       </table>
+        
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                id:'',
+                name:'',
+                keywords:'',
+                list:[
+                    {id:1, name:'奔驰',ctime:new Date()},
+                    {id:2, name:'宝马',ctime:new Date()}
+                ]
+            },
+            methods:{
+                add(){
+                    /*  
+                        1. 获取id和name,直接从data上获取；
+                        2. 组织出一个对象；
+                        3. 调用数组的相关方法，添加到当前data中的list；
+                        4. 在vue中，默认监听data的改动，自动更新数据并应用到页面
+                    */
+                    var car = {id: this.id, name:this.name, ctime:new Date()};
+                    this.list.push(car);
+                    this.id=this.name=''
+                },
+                del(id){
+                    /*
+                        1. 如何根据id找到待删除项的索引？
+                        2. 直接调用数组的splice方法
+                    */
+                    
+                   /* this.list.some((item, i)=>{
+                        if(item.id == id){
+                            this.list.splice(i,1,);
+                            // 数组的some方法中，return true即终止数组的后续循环
+                            return true;
+                        }
+                    })*/
+                
+                    var index = this.list.findIndex(item =>{
+                        if(item.id==id){
+                            return true;
+                        }
+                    })
+                    this.list.splice(index,1,)
+                },
+                search(name){
+                    /*
+                        search过滤方法中使用数组的filter方法进行过滤   
+                    */
+                    return this.list.filter(x=>{
+                        return x.name.indexOf(name) !=-1;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
