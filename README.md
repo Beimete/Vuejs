@@ -133,3 +133,28 @@
 ## v-if和v-show属性
 
 - 一般来说，v-if有更高的切换消耗而v-show有更高的初始渲染消耗。因此，如果需要频繁切换v-show较好；如果在运行时条件不大可能改变v-if较好。
+
+## 过滤器
+
+- 概念：Vue.js允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方：mustache插值和v-bind表达式。过滤器应该被添加在 JavaScript 表示式的尾部，由“管道 | ”符表示。Vue.js可以同时调用多个filter，从左到右依次过滤后再输出。
+
+### 私有过滤器
+
+- 1.HTML元素：
+
+                <td>{{item.ctime | dateFormat('yyyy-mm-dd')}}</td>
+
+- 2.私有filters定义方式：
+
+                filters:{
+                        /* 私有局部过滤器，只能在当前 vm 对象所控制点的 View区域进行使用 */
+                        dateFormat(input, pattern = ""){
+                                /* 在参数列表中，通过pattern=""来指定形参默认值，防止报错 */
+                                var dt = new Date(input);
+                                
+                                var y = dt.getFullYear();
+                                var m = (dt.getMonth()+1).toString().padStar(2, '0');
+                                var d = dt.getDate().toString().padStar(2, '0');
+                                /* 如果传递进来的字符串类型，转为小写之后，等于yyyy-mm-dd,那么就返回 年-月-日 */
+                        }
+                }
