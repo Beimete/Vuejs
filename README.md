@@ -91,11 +91,11 @@
 
 - 2.将样式对象定义到data中后直接引用到:style
 
-        在data上定义样式：
+        <!-- 在data上定义样式： -->
         data{
             h1StyleObj:{color:'red', 'font-size':'40px', 'font-weight':'200'}
         }
-        在元素中，通过属性绑定的形式，将样式对象应用到元素中:
+        <!-- 在元素中，通过属性绑定的形式，将样式对象应用到元素中: -->
         <h1 :style="h1StyleObj">这是一个善良的H1</h1>
 
 - 3.在:style中通过数组，引用多个data上的样式对象
@@ -138,23 +138,129 @@
 
 - 概念：Vue.js允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方：mustache插值和v-bind表达式。过滤器应该被添加在 JavaScript 表示式的尾部，由“管道 | ”符表示。Vue.js可以同时调用多个filter，从左到右依次过滤后再输出。
 
-### 私有过滤器
-
 - 1.HTML元素：
 
                 <td>{{item.ctime | dateFormat('yyyy-mm-dd')}}</td>
 
-- 2.私有filters定义方式：
+- 2.全局filter定义方式：
+
+                 Vue.filter('dateFormat', function(dateStr, pattern=""){
+                        <!-- 根据给定的时间字符串，得到特定的时间 -->
+                        var dt = new Date(dateStr);
+                        
+                        var y = dt.getFullYear();
+                        var m = dt.getMonth()+1;
+                        var d = dt.getDate();
+                        
+                        if(pattern && pattern.toLowerCase() === 'yyyy-mm-dd'){
+                                return `${y}-${m}-${d}`
+                        }else{
+                                var hh = dt.getHours();
+                                var mm = dt.getMinutes();
+                                var ss = dt.getSeconds();
+
+                                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+                        }
+                })
+
+- 3.私有filters定义方式：
 
                 filters:{
-                        /* 私有局部过滤器，只能在当前 vm 对象所控制点的 View区域进行使用 */
+                        <!-- 私有局部过滤器，只能在当前 vm 对象所控制点的 View区域进行使用 -->
                         dateFormat(input, pattern = ""){
-                                /* 在参数列表中，通过pattern=""来指定形参默认值，防止报错 */
+                                <!-- 在参数列表中，通过pattern=""来指定形参默认值，防止报错 -->
                                 var dt = new Date(input);
                                 
                                 var y = dt.getFullYear();
                                 var m = (dt.getMonth()+1).toString().padStar(2, '0');
                                 var d = dt.getDate().toString().padStar(2, '0');
-                                /* 如果传递进来的字符串类型，转为小写之后，等于yyyy-mm-dd,那么就返回 年-月-日 */
+                        <!-- 如果传递进来的字符串类型，转为小写之后，等于yyyy-mm-dd,那么就返回 年-月-日 -->
                         }
                 }
+
+## 键盘修饰符
+
+- [JavaScript中键盘事件对应的键码]:https://www.cnblogs.com/wuhua1/p/6686237.html
+
+- 1.x中自定义键盘修饰符
+
+                Vue.directive('on').keyCodes.f2 = 113;
+
+- 2.x中自定义键盘修饰符
+
+        1.通过Vue.config.keyCode.name = number来定义按键修饰符别名：
+
+                Vue.config.keyCodes.f2 = 113;
+        
+        2.使用自定义的按键修饰符：
+
+                <input type="text" v-model="name" @keyup.f2="add">
+
+## 自定义指令
+
+- 1.自定义全局指令
+
+        <!-- 自定义全局指令 v-focus，为绑定的元素自动获取焦点 -->
+        Vue.directive('focus', {
+                <!-- 每个函数第一个参数均为 el，表示被绑定了指令的那个元素,这个el参数是一个原生的JavaScript对象，即DOM -->
+
+                <!-- bind 表示 当指令绑定到元素上的时候，立即执行这个 bind 函数且只执行一次 
+                与css相关的操作，一般都可以在 bind 中去执行，bind 中指令执行时间一般先于 inserted -->
+                bind: function(){},
+                <!-- inserted 表示 当绑定的元素插入到 DOM 中，立即执行这个 inserted 函数，
+                与JavaScript相关的操作，最好在 inserted 中去执行，防止JavaScript行为不生效-->
+                inserted: function(el){<!-- 聚焦元素 -->el.focus()}，
+                <!-- update 表示 当 VNode 更新的时候，立即执行这个 update 函数，可能会执行多次-->
+                update: function(){}
+        });
+
+- 2.自定义局部指令
+
+        <!-- 自定义局部指令 v-color 和 v-fontweight，为绑定的元素设置指定的字体粗细 -->
+        directives: {
+                'color': {
+                        bind: function(el){
+                                <!-- style 只要通过指令绑定给内存非元素中的元素，不管这个元素有没有被渲染到页面上，这个元素肯定有一个内联的样式，将来元素肯定会显示到页面中去，这时浏览器的渲染引擎必然解析样式，应用给这个元素-->
+                                el.style.color = 'red';
+                        }
+                },
+                'fontweight': {
+                        bind: function(el,binding){
+                                el.style.fontWeight = binding.value
+                        }
+                }
+        }
+
+- 3.函数简写
+
+        <!-- 很多时候，可能想在 bind 和 update 时触发相同行为，而不关心其他钩子-->
+
+        <!-- 全局指令形式 -->
+        Vue.directive('color-swatch', function(el, binding){
+                el.style.backgroundColor = binding.value
+        })
+
+        <!-- 局部指令形式 -->
+        directives:{
+                'fontsize': function(el, binding){
+                        el.style.fontSize = parseInt(binding.value) + 'px'
+                }
+        }
+
+- [官方文档]: https://cn.vuejs.org/v2/guide/custom-directive.html
+
+## Vue实例的生命周期
+
+- 什么是生命周期：从Vue实例创建，运行，到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期。
+
+- 生命周期钩子：生命周期事件的别名
+
+- 主要的生命周期函数分类：
+
+        - 创建期间的生命周期函数
+                - beforeCreate：实例刚在内存中被创建出来，此时，还没有初始化好 data 和 methods 属性；
+                - created：实例已经在内存中创建成功，此时 data 和 methods 已经创建成功，未开始编译模板；
+                - beforeMount：此时已经完成了模板的编译，但是还没有挂载到页面中；
+                - mounted：此时已经将编译好的模板挂载到页面指定的容器中显示。
+        - 运行期间的生命周期函数
+                - beforeUpdate

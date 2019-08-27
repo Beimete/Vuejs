@@ -22,14 +22,16 @@
                  </label>
                  <label>
                      Name:
-                     <input type="text" class="form-control" v-model="name">
+                     <input type="text" class="form-control" v-model="name" @keyup.113="add">
                  </label>
                  <!-- 使用事件绑定机制 为元素指定处理函数的时候 加()就可以传递参数 -->
                 <input type="button" value="Add" class="btn btn-primary" @click="add">
 
                 <label>
                         Research Keywords:
-                        <input type="text" class="form-control" v-model="keywords">
+                        <!-- Vue中所有的指令，在调用的时候，都以 v- 开头 -->
+                        <input  id="search" type="text" class="form-control" v-model="keywords" 
+                        v-focus v-color="'blue'" >
                 </label>
              </div>
        </div>
@@ -59,9 +61,14 @@
        </table>
         
     </div>
+
+    <div id='app2'>
+        <h3 v-color="'green'" v-fontweight="900" v-fontsize="50">{{ dt | dateFormat}}</h3>
+    </div>
     <script>
         /*
-            全局过滤器，进行时间的格式化；
+            全局filter，进行时间的格式化；
+            所谓的 global filter，即所有的 Vue 实例都可以共享
             Vue中filter中 function, 第一个参数已经规定死了，即管道符前面传递的数据
         */
         Vue.filter('dateFormat', function(dateStr, pattern=""){
@@ -82,6 +89,39 @@
                 return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
             }
         })
+
+        
+        // 自定义全局按键修饰符
+        Vue.config.keyCodes.f2 = 113;
+
+        /*
+            Vue自定义全局指令
+            定义时，指令名称的前面不需要加 v- 前缀;
+            para1 指令的名称；
+            para2 对象，本身附带一些指令相关的钩子函数，可以在特定的阶段执行相关的操作；
+        */
+        Vue.directive('color', {
+            bind: function(el, binding){
+                el.style.color = binding.value;
+
+                // 注意 binding.value 与 binding.expression 的输出结果 blue 与 'blue'
+                // console.log(binding.value); 
+                // console.log(binding.expression)
+            }
+        });
+
+        Vue.directive('focus', {
+            bind: function(){
+                /*在元素刚刚绑定指令的时候，还没有插入到 DOM 中,
+                而元素只有插入DOM之后才能获取焦点，故调用focus没有效果*/
+                // el.focus()
+            },
+            inserted: function(el){
+                el.focus()
+                },
+            update: function(el){}
+        })
+
         var vm = new Vue({
             el:'#app',
             data:{
@@ -162,6 +202,60 @@
                 }
             }
         });
+
+        /*
+            如何自定义一个private filter?
+            私有局部过滤器，只能在当前 vm 对象所控制点的 View区域进行使用.
+
+            filter调用的时候采用“就近原则”；
+            如果私有filters和全局filter名称相同，优先调用私有过滤器。
+        */
+        var vm2 = new Vue({
+            el:'#app2',
+            data:{
+                dt: new Date()
+            },
+            methods:{},
+            filters:{
+                dateFormat:function(dateStr, pattern=''){
+                    var dt = new Date(dateStr);
+
+                    /*
+                        使用ES6中的字符串新方法 String.prototype.padStart(maxLength, fillString='')
+                        或String.prototype.padEnd(maxLength, fillString='')来填充字符串；
+                    */
+            
+                    var y = dt.getFullYear().toString().padStart(2, '0');
+                    var m = (dt.getMonth()+1).toString().padStart(2, '0');
+                    var d = dt.getDate().toString().padStart(2, '0');
+                
+                    if(pattern && pattern.toLowerCase() === 'yyyy-mm-dd'){
+                        return `${y}-${m}-${d}`
+                    }else{
+                        
+                        var hh = dt.getHours().toString().padStart(2, '0');
+                        var mm = dt.getMinutes().toString().padStart(2, '0');
+                        var ss = dt.getSeconds().toString().padStart(2, '0');
+
+                        return `${y}-${m}-${d} ${hh}:${mm}:${ss} ~~~~`
+                    }
+                }
+            },
+            directives: {
+                'fontweight':{
+                        bind: function(el, binding){
+                        el.style.fontWeight = binding.value
+                    }
+                },
+                'fontsize': function(el, binding){
+                    el.style.fontSize = parseInt(binding.value) + 'px'
+                }
+                
+            }
+        })
+
+        // 原生JavaScript中的focus函数，执行DOM操作
+        // document.getElementById('search').focus()
    
     </script>
 </body>
