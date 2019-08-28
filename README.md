@@ -277,9 +277,9 @@
 
 - 2.测试的URL请求资源地址：
   
-        - [get请求地址]:http://vue.studyit.io/api/getlunbo
-        - [post请求地址]:http://vue.studyit.io/api/post
-        - [jsonp请求地址]:http://vue.studyit.io/api/jsonp
+        - [get请求地址]:http://www.liulongbin.top:3005/api/getlunbo
+        - [post请求地址]:http://www.liulongbin.top:3005/api/post
+        - [jsonp请求地址]:http://www.liulongbin.top:3005/api/jsonp
 
 - 3.JSONP的实现原理
 
@@ -303,5 +303,10 @@
 
         <!-- 监听服务器的request请求事件，处理每个请求 -->
         server.on('request', (req, res) =>{
-                consturl = req.url;
+                <!-- write your code here... -->
+        })
+
+        <!-- 指定服务器端口号并启动服务器监听 -->
+        server.listen(3000, function(){
+                console.log('server listen at http://127.0.0.1:3000')
         })
