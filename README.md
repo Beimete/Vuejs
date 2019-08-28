@@ -253,7 +253,7 @@
 
 - 什么是生命周期：从Vue实例创建，运行，到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期。
 
-- 生命周期钩子：生命周期事件的别名
+- 生命周期钩子：生命周期事件（函数）的别名
 
 - 主要的生命周期函数分类：
 
@@ -271,12 +271,37 @@
 
 ## vue-resource 实现 get, post, jsonp 请求
 
-- 1.之前的学习中，如何发起请求？
+[vue-resource官网]:https://github.com/pagekit/vue-resource
 
-- 2.常见的数据请求类型？
+- 1.除了vue-resource以外，还可以使用 axios 的第三方包实现数据的请求
 
-- 3.测试的URL请求资源地址：
+- 2.测试的URL请求资源地址：
   
         - [get请求地址]:http://vue.studyit.io/api/getlunbo
-        - post请求地址：
-        - jsonp请求地址：
+        - [post请求地址]:http://vue.studyit.io/api/post
+        - [jsonp请求地址]:http://vue.studyit.io/api/jsonp
+
+- 3.JSONP的实现原理
+
+        - 由于浏览器的安全性限制，不允许AJAX访问协议不同，域名不同，端口号不同的数据接口，浏览器认为这种访问不安全；
+        - 可以通过动态创建script标签的形式，把script标签的src属性，指向数据接口的地址，因为script标签不存在跨域限制，这种数据获取方式，称作JSONP；
+        - 注意，根据JSONP的实现原理可以知晓，JSONP只支持GET请求。
+        - 具体实现过程：
+
+                - 先在客户端定义一个回调方法，预定义对数据的操作；
+                - 再把这个回调方法的名称，通过URL传参的形式，提交到服务器的数据接口；
+                - 服务器的数据接口组织好要发送给客户端的数据，再拿着客户端传递过来的回调方法名称，拼接出一个调用这个方法的字符串，发送给客户端去解析执行；
+                - 客户端拿到服务器返回的字符串后，当做javascript脚本去解析执行，这样就能够拿到JSONP的数据了。
+
+- 4.通过Node.js来手动实现一个JSONP的请求例子
+
+        <!-- 导入解析URL地址的核心模块 -->
+        const http = request('http');
+        const urlModule = request('url');
+
+        const server = http.createServer();
+
+        <!-- 监听服务器的request请求事件，处理每个请求 -->
+        server.on('request', (req, res) =>{
+                consturl = req.url;
+        })
