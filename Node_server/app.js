@@ -1,16 +1,18 @@
 // 导入解析URL地址的核心模块
-const http = request('http');
+const http = require('http');
+// 解析URL地址
+const urlModule = require('url')
 
 // 创建一个http服务器
 const server = http.createServer();
 
 // 监听服务器的request请求事件，处理每个请求
-server.on('request', (req, res) =>{
+server.on('request', function(req, res) {
     const url = req.url;
     
     if(url === '/getscript'){
         // 拼接一个合法的JavaScript脚本，此处拼接一个方法的调用
-        var scriptStr = 'showInfo()'
+        var scriptStr = 'show()'
         // res.end发送给客户端，客户端把这个字符串当做JavaScript代码去执行
         res.end(scriptStr)
     }else{

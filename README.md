@@ -296,7 +296,7 @@
 - 4.通过Node.js来手动实现一个JSONP的请求例子
 
         <!-- 导入解析URL地址的核心模块 -->
-        const http = request('http');
+        const http = require('http');
         const urlModule = request('url');
 
         const server = http.createServer();
