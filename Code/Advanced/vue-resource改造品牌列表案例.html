@@ -48,7 +48,7 @@
                     <td>{{item.name}}</td>
                     <td>{{item.ctime}}</td>
                     <td>
-                        <a href="">删除</a>
+                        <a href="" @click.prevent='del(item.id)'>删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -67,10 +67,9 @@
                 ]
             },
             created(){ // 当vm实例的data和methods初始化完毕后，vm实例会自动执行created这个生命周期函数
-                this.geyAllList()
+                this.getAllList()
             },
             methods:{
-                add(){ },
                 getAllList(){ // 获取所有的品牌列表
                     // 分析：
                     // 1. 由于已经导入了 vue-resource这个包，可以直接通过 this.$http 来发起数据请求；
@@ -80,19 +79,57 @@
                     // 5. 先判断 result.status 是否等于0，如果等于0，就成功了，可以把result.message赋值给this.list;如果不等于0，可以弹框提醒，获取数据失败!
 
 
-                    this.$http.get('http://www.liulongbin.top:3005/api/getprodlist').then(function(result){
-                        if(result.status === 0 ){
-                            // 成功了
-                            this.list = result.message
+                    this.$http.get('http://www.liulongbin.top:3005/api/getprodlist').then(result =>{
+                        // 注意：通过 $http 获取到的数据，都在 result.body 中放着
+                        var result = result.body;
+                        if(result.status === 0){
+                            // GET请求成功了
+                            this.list = result.message;
                         }else{
-                            // 失败了
-                            alert('获取数据失败！')
+                            // GET请求失败了
+                            alert('获取数据失败！');
                         }
                     })
                     
+                },
+            },
+                add(){ 
+                    // 添加品牌列表到后台服务器
+                    // 分析：
+                    // 1. 通过查看数据API接口发现，要发送一个 POST 请求，this.$http.post;
+                    // 2. this.$http.post()中接收三个参数：
+                    //  2.1 第一个参数：要请求的URL地址；
+                    //  2.2 第二个参数：要提交给服务器的数据，要以对象形式交给服务器 {name:this.name}
+                    //  2.3 第三个参数：是配置一个对象，要以哪种表单数据类型提交过去，{emulateJSON:ture}，以普通表单形式，将数据提交给服务器 application/x-www-form-urlencode
+                    // 3. 在post方法中，使用.then来设置成功的回调函数，如果想要拿到成功的结果，需要result.media-body
 
+                    this.$http.post('http://www.liulongbin.top:3005/api/addproduct', {name:this.name}, {emulateJSON:true}).then(
+                        result =>{
+                            // 此段代码只是学习的样例，API数据接口有问题
+                            if(result.body.status === 0){
+                                // 成功了
+                                // 添加完成后，只需要手动，再调用一下 getAllList 就能刷新品牌列表
+                                this.getAllList()
+                                // 清空name
+                                this.name = ''
+                            }else{
+                                // 失败了
+                                alert('添加失败！')
+                            }
+                        }
+                    )
+                    
+            },
+                del(id){
+                    this.$http.get('http://www.liulongbin.top:3005/api/delproduct/'+id).then(result =>{
+                        if(result.body.status ===0){
+                            // 删除成功
+                            this.getAllList()
+                        }else{
+                            alert('删除失败！')
+                        }
+                    })
                 }
-            }
         });
     </script>
 </body>
