@@ -310,3 +310,36 @@
         server.listen(3000, function(){
                 console.log('server listen at http://127.0.0.1:3000')
         })
+
+- 5.参见Node_server文件夹中的案例
+
+## Vue动画
+
+- 为什么要有动画：动画能够提高用户的体验，帮助用户更好地理解页面中的功能
+
+### 使用过渡类名
+
+- 1.HTML结构
+
+        <div id="app">
+        <input type="button" value="动起来" @click="myAnimate">
+        <!-- 使用 transition 将需要过渡的元素包裹起来 -->
+        <transition name="fade">
+           <div v-show="isshow">动画哦</div>
+        </transition>
+        </div>
+
+- 2.VM实例
+
+        <!-- 创建Vue实例，得到ViewModel -->
+        var vm = new Vue({
+                el:"#app",
+                data:{
+                        isshow:true,
+                },
+                methods:{
+                        myAnimate(){
+                                this.isshow = this.isshow;
+                        }
+                }
+        });

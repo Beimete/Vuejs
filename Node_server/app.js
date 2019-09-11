@@ -33,3 +33,6 @@ server.on('request', function(req, res) {
 server.listen(3000, function(){
         console.log('server listen at http://127.0.0.1:3000')
 })
+
+// 启动服务器步骤：
+// 终端 -> nodemon .\Node_server\app.js + enter

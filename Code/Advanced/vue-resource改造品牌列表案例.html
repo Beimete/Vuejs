@@ -57,6 +57,26 @@
 
     </div>
     <script>
+        /** 配置本地数据库和数据接口API
+            1. 先解压安装 'PHPStudy';
+            2. 解压安装 'Navicat' 这个数据库可视化工具，并激活；
+            3. 打开 'Navicat' 工具，新建空白数据库，名为 'dtcmsdb4'；
+            4. 双击新建的数据库，连接上这个空白数据库，在新建的数据库上 "右键" -> '运行SQL文件'，
+            选择并执行 'dtcmsdb4.sql' 这个数据库脚本文件；如果执行不报错，则数据库导入完成；
+            5. 进入文件夹 'vuecms3_nodejsapi' 内部，执行 'npm i' 安装所有的依赖项；
+            6. 先确保本机安装了 'nodemon',没有安装，则运行 'npm i nodemon -g'进行全局安装，安装完毕后，
+            进入到 'vuecms_nodejsapi' 目录 -> 'src'目录 -> 双击运行 'start.bat';
+            7. 如果API启动失败，请检查PHPStudy是否正常启动，同时，检查 'app.js'中第'14行'中数据库连接配置
+            字符串是否正确；PHPStudy 中默认的用户名是 root，默认的密码也是 root.
+        */
+
+        // 如果通过全局配置，请求了数据接口的根域名，则，后续单独发起http请求的时候需要使用Relative Address，即前面不带 /
+        // 否则，程序不会启动根路径，做拼接
+        Vue.http.options.root = 'http://www.liulongbin.top:3005/';
+
+        // 全局启用 emulateJSON 选项
+        // Vue.http.options.emulateJSON = true;
+
         var vm = new Vue({
             el:'#app',
             data:{
@@ -79,7 +99,7 @@
                     // 5. 先判断 result.status 是否等于0，如果等于0，就成功了，可以把result.message赋值给this.list;如果不等于0，可以弹框提醒，获取数据失败!
 
 
-                    this.$http.get('http://www.liulongbin.top:3005/api/getprodlist').then(result =>{
+                    this.$http.get('api/getprodlist').then(result =>{
                         // 注意：通过 $http 获取到的数据，都在 result.body 中放着
                         var result = result.body;
                         if(result.status === 0){
@@ -103,9 +123,13 @@
                     //  2.3 第三个参数：是配置一个对象，要以哪种表单数据类型提交过去，{emulateJSON:ture}，以普通表单形式，将数据提交给服务器 application/x-www-form-urlencode
                     // 3. 在post方法中，使用.then来设置成功的回调函数，如果想要拿到成功的结果，需要result.media-body
 
-                    this.$http.post('http://www.liulongbin.top:3005/api/addproduct', {name:this.name}, {emulateJSON:true}).then(
+                    this.$http.post('api/addproduct', {name:this.name}, {emulateJSON:true}).then(
                         result =>{
                             // 此段代码只是学习的样例，API数据接口有问题
+                            // http://www.liulongbin.top:3005 是服务器数据库的根地址
+
+                            // {emulateJSON:true} 是发起post请求不可或缺的参数，也可以进行全局配置
+
                             if(result.body.status === 0){
                                 // 成功了
                                 // 添加完成后，只需要手动，再调用一下 getAllList 就能刷新品牌列表
@@ -121,7 +145,8 @@
                     
             },
                 del(id){
-                    this.$http.get('http://www.liulongbin.top:3005/api/delproduct/'+id).then(result =>{
+                    this.$http.get('api/delproduct/'+id).then(result =>{
+                        // http://www.liulongbin.top:3005 是服务器数据库的根地址
                         if(result.body.status ===0){
                             // 删除成功
                             this.getAllList()
