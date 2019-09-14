@@ -17,6 +17,15 @@
         <mycom2></mycom2>
         <mycom3></mycom3>
     </div>
+
+    <div id="app2">
+        <login></login>
+    </div>
+
+    <template id="tmpl2">
+        <h1>这是私有的LOGIN组件</h1>
+    </template>
+
      <!-- 在被控制的 #app 外部，使用tempalte元素，定义组件的模板结构 -->
      <template id='tmpl'>
             <div>
@@ -33,7 +42,7 @@
         // 1.2 使用Vue.component('组件的名称', 创建出来的组件模板对象com1)
         // Vue.component('myCom1', com1);
 
-        // 以上可以精简成下面的代码
+        // 1. 以上可以精简成下面的代码
         // Vue.component 第一个参数：组件的名称，将来在引用组件的时候，就是以一个标签形式来引入；第二个参数：Vue.extend 创建的组件，其中template就是组件将来要展示的内容
         Vue.component('mycom1', Vue.extend({
             template:'<h3>这是使用Vue.extend创建的组件</h3>'
@@ -48,10 +57,34 @@
         Vue.component('mycom3', {
             template:"#tmpl"
         })
+
         var vm = new Vue({
             el:"#app",
             data:{},
             methods:{}
+        })
+
+        var vm2 = new Vue({
+            el:"#app2",
+            data:{},
+            methods:{},
+            fliters:{},
+            directives:{},
+            components:{
+                // 定义 Vue实例内部的私有组件
+                login:{
+                    template:'#tmpl2'
+                }
+            },
+
+            beforeCreate(){},
+            created(){},
+            beforeMount(){},
+            mounted(){},
+            beforeUpdate(){},
+            updated(){},
+            beforeDestroy(){},
+            destroyed(){},
         })
 
     </script>
