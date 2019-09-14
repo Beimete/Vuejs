@@ -24,7 +24,7 @@
             <h3 v-if="flag" class="animated">这是一个H3</h3>
         </transition> -->
 
-        <!-- 使用对象传参，分别设置入场和离场的时长 -->
+        <!-- 使用对象传参，分别设置入场和离场Animate的时长 -->
         <transition enter-active-class="bounceIn" leave-active-class="bounceOut"
         :duration="{enter:200, leave:400}">
             <h3 v-if="flag" class="animated">这是一个H3</h3>
@@ -37,9 +37,7 @@
             data:{
                 flag:false
             },
-            methods:{
-                
-            }
+            methods:{ },
         })
     </script>
 </html>

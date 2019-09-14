@@ -343,3 +343,75 @@
                         }
                 }
         });
+
+- JavaScript钩子函数
+
+         <transition
+         @before-enter="beforeEnter"
+         @enter="enter"
+         @after-enter="afterEnter">
+            <div class="ball" v-show="flag"></div>
+        </transition>
+
+### 使用第三方类
+
+- Animate实例
+
+         <transition enter-active-class="bounceIn" leave-active-class="bounceOut"
+        :duration="{enter:200, leave:400}">
+            <h3 v-if="flag" class="animated">这是一个H3</h3>
+        </transition>
+
+### 列表动画
+
+- transition-group实例
+
+         <!-- 实现列表过渡的时候，如果需要过渡的元素是 v-for 渲染出来的，不能使用 transition 包裹
+        需要使用 transition-group -->
+        <!-- 如果要给 v-for 渲染的元素设置动画，必须为每一个元素设置好 :key属性 -->
+        <!-- <ul 给transition-group添加appear属性，实现页面刚刚展示出来的入场效果 -->
+        <transition-group appear tag="ul">
+                <!-- 添加 tag 属性，指定transition-group将要被渲染成何种类型的元素，
+                    若不指定tag属性，浏览器会默认渲染成为span标签 -->
+                <li v-for="(item, i) in list" :key="item.id" @click="del(i)">
+                        {{ item.id }} --- {{ item.name }}
+                </li>
+            </transition-group>
+
+
+## Vue组件
+
+- 什么是组件：组件的出现，就是为了拆分Vue实例的代码量，能够让我们以不同的组件，来划分不同的功能模块。我们需要什么样的功能，就可以去调用对应的组件即可。
+
+### 组件化和模块化的不同
+  
+- 模块化：从代码逻辑的角度进行划分，如:Nodejs
+- 组件化：从UI界面的角度进行划分，如:Vue
+  
+- ### 全局组件定义的三种方法
+
+- 1.使用Vue.extend配合Vue.component方法：
+
+        var login = Vue.extend({
+                template: '<h1>登录</h1>’
+        });
+        Vue.component('login', login)
+
+- 2.直接使用Vue.component方法
+
+        Vue.component('register', {
+                template: '<h1>注册</h1>'
+        });
+
+- 3.将模板字符串定义到script标签内部
+
+        <script id="tmp1" type="x-template">
+                <div><a href="#">登录</a> | <a href="#">注册</a></div>
+        </script>
+        <!-- 同时，需要使用Vue.component来定义组件 -->
+        Vue.component('account", {
+                template:'#tmp1'
+        });
+
+- 注意：组件中的DOM结构，有且只有唯一的根元素(Root Element)来进行包裹！
+
