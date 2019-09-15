@@ -660,7 +660,7 @@
 
 - [参考网站](https://www.cnblogs.com/joyho/articles/4430148.html)
 
-### vue-router
+### vue-router的基本使用
 
 - 1.导入vue-router组件类库
 
@@ -680,7 +680,123 @@
 
 - 4.创建使用`Vue.extend`创建组件
 
-        <!-- 使用Vue.extend来创建登录组件 -->
+        <!-- 4.1 使用Vue.extend来创建登录组件 -->
         var login = Vue.extend({
+                template:'<h1>登录组件</h1>'
+        });
 
+        <!-- 4.2 使用Vue.extend来创建注册组件 -->
+        var register = Vue.extend({
+                template:'<h1>注册组件</h1>'
+        });
+
+- 5.创建一个路由router实例，通过router属性来定义路由匹配规则
+
+        <!-- 5.创建一个路由router实例，通过router属性来定义路由匹配规则 -->
+        var routerObj = new Vue({
+                routes:{
+                        {path: 'login', component:login}
+                        {path: 'register', component:register}
+                }
         })
+
+- 6.使用router属性来使用路由规则，将创建的router对象与vm实例进行关联
+
+        var vm = new Vue({
+            el:"#app",
+        <!-- 将路由规则对象，注册到vm实例上，用来监听URL地址的变化，然后展示对应的组件 -->
+            router:routerObj,
+        })
+
+### 使用tag属性指定router-link渲染的标签类型
+
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+### 设置路由重定向
+
+        {path:'/', redirect:'/login'}
+
+### 设置路由高亮
+
+        .router-link-active, .myactive{
+            color:red;
+            font-weight: 800;
+            font-style: italic;
+            font-size: 20px;
+            text-decoration: underline;
+            background-color: orange;
+        }
+
+        <!-- 不使用router-link-active，自定义class名称，实现 路由高亮 -->
+        linkActiveClass:'myactive';
+
+### 设置路由切换动效
+
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(140px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 0.5s ease;
+        }
+
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+
+### 在路由规则中定义参数
+
+- 在规则中定义参数
+
+        {path: 'register/:id', component:register}
+
+- 通过`this.$route.query`来获取路由中的参数
+
+        var login = Vue.extend({
+                template:'<h1>注册组件 --- {{this.$route.query.id}}</h1>'
+        })
+
+- 通过`this.$route.params`来获取路由中的参数
+
+        var register = Vue.extend({
+                template:'<h1>注册组件 --- {{this.$route.params.id}}</h1>'
+        })
+
+### 使用`children`属性实现路由嵌套
+
+         var router = new VueRouter({
+            routes:[
+                {
+                    path:'/account', 
+                    component:account,
+                    children[
+                        {path:'login', component:login},
+                        {path:'register', component:register},
+                    ]
+                },
+            ]
+        })
+
+### 命名视图实现经典布局
+
+        <div id="app">
+        <router-view></router-view>
+        <div class="container">
+            <router-view name="left"></router-view>
+            <router-view name="main"></router-view>
+        </div>
+        </div>
+
+        var router = new VueRouter({
+           routes:[
+               {path:'/', components:{
+                   'default':header,
+                   'left':leftBox,
+                   'main':mainBox,
+               }},
+           ]
+       });

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用children属性实现路由的嵌套</title>
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <router-link to='/account'>Account</router-link>
+
+        <router-view></router-view>
+    </div>
+
+    <template id="tmpl">
+        <div>
+            <h1>这是 Account 组件</h1>
+
+            <router-link to='/account/login'>登录</router-link>
+            <router-link to='/account/register'>注册</router-link>
+
+            <router-view></router-view>
+            <!-- routes里面若没有添加children属性，上面的router-view容器在浏览器中并没有起作用 -->
+        </div>
+    </template>
+
+    <script>
+        var account ={
+            template:"#tmpl"
+        };
+
+        var login ={
+            template:'<h3>登录</h3>'
+        };
+        var register ={
+            template:'<h3>注册</h3>'
+        };
+
+        var router = new VueRouter({
+            routes:[
+                {
+                    path:'/account', 
+                    component:account,
+                    children:[
+                        // 这里没有写成 path:'/login' 是因为不总是要求从根目录 root 进行匹配
+                        // 这样写是将 login直接拼接在父路由上，形成 /account/login，与 router-link进行匹配
+                        {path:'login', component:login},
+                        {path:'register', component:register},
+                    ]
+                },
+                // {path:'/account/login', component:login},
+                // {path:'/account/register', component:register},
+            ]
+        })
+        var vm = new Vue({
+            el:"#app",
+            data:{},
+            methods:{},
+            router,
+        })
+    </script>
+</body>
+</html>
