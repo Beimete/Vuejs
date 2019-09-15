@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>获取DOM元素和组件</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="获取元素" @click="getElement" ref="mybtn">
+        <h3 id="myh3" ref="myh3">哈哈哈哈，今天的天气太好了！！！</h3>
+
+        <hr>
+        <login ref="mylogin"></login>
+    </div>
+
+    <script>
+        var login = {
+            template:'<h1>登录组件</h1>',
+            data(){
+                return {
+                    name:'子组件'
+                }
+            },
+            methods:{
+                show(){
+                    console.log('我是子组件的方法！')
+                }
+            }
+        };
+        var vm = new Vue({
+            el:"#app",
+            data:{},
+            methods:{
+                getElement(){
+                    // 原生javascript需要获取h3标签的id，即直接操作DOM元素
+                    // console.log(document.getElementById('myh3').innerText)
+
+                    // ref 是英文单词[reference]: 引用；参照
+                    console.log(this.$refs.myh3.innerText);
+                    console.log(this.$refs.mybtn.value);
+                    console.log(this.$refs.mylogin.name);
+                    this.$refs.mylogin.show()
+                }
+            },
+            components:{
+                login
+            }
+        })
+    </script>
+</body>
+</html>

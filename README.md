@@ -522,7 +522,7 @@
         });
         </script>
 
-- 2.使用v-bind或简化指定@，将数据传递到子组件中
+- 2.使用v-bind或简化指定：，将数据传递到子组件中
 
         <div id="app">
                 <son :finfo="msg"></son>
@@ -575,6 +575,38 @@
         })
         </script>
 
+### 组件中data和prop的区别
+
+         var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'123 啊-父组件中的数据'
+            },
+            methods:{},
+
+            components:{
+                com1:{
+                    // 子组件中的data数据，并不是通过父组件传递过来的，而是子组件本身私有的，比如子组件通过Ajax请求回来的数据，都可以放到data内部
+                    data(){
+                        return {
+                            title:'son-component',
+                            content:'QAQ',
+                        }
+                    },
+                    template:'<h1 @click="change">这是子组件！--{{parentmsg}}</h1>',
+                    // 注意：组件中`props` 中所有的数据，都是通过父组件传递给子组件的
+                    // props中的数据都是只读的，而data内的数据都是可读可写的
+                    // 把父组件传递过来的 parentmsg属性，先在props数组中定义以下，这样才能使用该数据
+                    props:['parentmsg'], 
+                    methods:{
+                        change(){
+                            this.parentmsg="被修改了"
+                        }
+                    }
+                }
+            }
+        })
+
 ### 评论列表案例
 
 - 目标：主要练习父子组件之间的传值
@@ -620,11 +652,13 @@
 
 ## 路由
 
-- 后端路由：对于普通网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；
+- 后端路由：对于普通网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；该对应关系就是 路由（Router）
 
-- 前端路由：对于单页面应用程序来说，主要通过URL中的hash(#号)来实现不同页面之间的切换，同时，hash有一个特点：HTTP请求中不会包含hash相关的内容；所以，单页面程序中的页面跳转主要用hash实现；
+- 前端路由：对于单页面应用程序来说，主要通过URL中的hash(#号，也称作“锚点”)来实现不同页面之间的切换，同时，hash有一个特点：HTTP请求中不会包含hash相关的内容；所以，单页面程序中的页面跳转`主要用hash实现`；
 
 - 在单页面应用程序中，这种通过hash改变来切换页面的方式，称作前端路由（区别于后端路由）；
+
+- [参考网站](https://www.cnblogs.com/joyho/articles/4430148.html)
 
 ### vue-router
 
@@ -647,3 +681,6 @@
 - 4.创建使用`Vue.extend`创建组件
 
         <!-- 使用Vue.extend来创建登录组件 -->
+        var login = Vue.extend({
+
+        })
