@@ -413,3 +413,237 @@
         });
 
 - 注意：组件中的DOM结构，有且只有唯一的根元素(Root Element)来进行包裹！
+
+### 私有组件的定义方
+
+        <template id="tmpl2">
+        <h1>这是私有的LOGIN组件</h1>
+        </template>
+         components:{
+                <!-- 定义 Vue实例内部的私有组件 -->
+                login:{
+                    template:'#tmpl2'
+                }
+            }
+
+### 组件中的data与methods
+
+- 案例
+
+         Vue.component('mycom1', {
+            template:'<h1>这是全局组件 --- {{msg}}</h1>',
+            // 1. component可以有自己的data;
+            // 2. component和Vue的实例的data可为对象不相同，组件中的data必须是一个function;
+            // 3. componnet中data除了必须是一个方法外，还必须返回一个对象(object);
+            // 4. componnet的data数据，使用方式和vm实例中的data使用方式完全一致
+            data:function(){
+                return {
+                    msg:'data of vue.component'
+                }
+            },
+            methods:{}
+        })
+
+- 原因解释
+
+        <script>
+        // 假设全局定义data数据类型，多次调用是引用调用，牵一发而动全身！故组件内部采用function
+        var dataObj = { count:0 };
+        // 这是一个计数器组件，身上有一个按钮，每当点击按钮，让data中的count值 +1
+        Vue.component('counter', {
+            template:'#tmpl',
+            data:function(){
+                // return dataObj
+                return {count:0}
+            },
+            methods:{
+                increment(){
+                    this.count += 1
+                }
+            }
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{}
+        })
+        </script>
+
+### 组件的切换
+
+- v-if/else方式实现两个组件间的切换
+
+        <div id="app">
+        <a href="" @click.prevent="flag=true">登录</a>
+        <a href="" @click.prevent="flag=false">注册</a>
+
+        <!-- v-if和v-else只能适用于两个组件之间的切换 -->
+        <login v-if="flag"></login>
+        <register v-else="flag"></register>
+
+- 多个组件使用component标签切换
+
+        <div id="app">
+        <a href="" @click.prevent="comName='login'">登录</a>
+        <a href="" @click.prevent="comName='register'">注册</a>
+        <!-- Vue提供了component元素，来展示对应名称的组件 -->
+        <!-- component 是一个占位符， :is 属性，可以用来指定要展示的组件名称 "'XXXX'" -->
+        <component :is="comName"></component>
+        </div>
+
+- 组件切换的过渡动画
+
+        <div id="app">
+        <a href="" @click.prevent="comName='login'">登录</a>
+        <a href="" @click.prevent="comName='register'">注册</a>
+
+        <!-- 通过mode属性，设置组件切换时候的模式 -->
+        <transition mode="out-in">
+            <component :is="comName"></component>
+        </transition>
+        </div>
+
+### 父组件向子组件传值
+
+- 1.组件实例定义方式，注意：一定要使用 props 属性定义父组件传递过来的数据
+
+        <script>
+                <!-- 创建Vue实例，得到ViewModel -->
+        var vm = new Vue({
+                el:"#app",
+                data:{
+                        msg:"这是父组件中的消息"
+                },
+                components:{
+                        son:{
+                                template: '<h1>这是一个子组件 --- {{finfo}}</h1>',
+                                props:['finfo']
+                        }
+                }
+        });
+        </script>
+
+- 2.使用v-bind或简化指定@，将数据传递到子组件中
+
+        <div id="app">
+                <son :finfo="msg"></son>
+        </div>
+
+### 子组件向父组件传值
+
+- 1.原理：父组件将方法的引用，传递到子组件内部，子组件在内部调用父组件传递过来的方法，同时把要发送给父组件的数据，在调用方法的时候当做参数传递过去；
+
+- 2.父组件将方法的引用传递给子组件，其中，`getMsg`是父组件中`methods`中定义的方法名称，`func`是子组件调用传递过来方法时的方法名称；
+
+        <son @func="getMsg"></son>
+
+- 3.子组件内部通过`this.$emit('方法名', 要传递的数据)`方式，来调用父组件中的方法，同时把数据传递给父组件使用。
+
+        <div id="app">
+        <!-- 引用父组件 -->
+        <son @func="getMsg"></son>
+
+        <!-- 组件模板定义 -->
+        <script>
+        <div>
+                <input type="button" value="向父组件传值" @click="sendMsg"/>
+        </div>
+        </script>
+        </div>
+
+        <script>
+        <!-- 子组件的定义方式 -->
+        Vue.component('son", {
+                template:'#son',
+                methods:{
+                        sendMsg(){
+                        <!-- 调用父组件传递过来的方法，同时把数据传递出去 -->
+                        this.$emit('func', 'OK')
+                        }
+                }
+        })
+
+        <!-- 创建Vue实例，得到ViewModel -->
+        var vm = new Vue({
+                el:"#app",
+                data:{ },
+                methods:{
+                        getMsg(val){
+                                <!-- 子组件中，通过this.$emit()实际调用方法，在此进行定义 -->
+                                alert(val);
+                        }
+                }
+        })
+        </script>
+
+### 评论列表案例
+
+- 目标：主要练习父子组件之间的传值
+
+### 使用 `this.$refs`来获取元素和组件
+
+        <div id="app">
+          <div>
+                <input type="button" value="获取元素内容" @click="getElement" />
+                <!-- 使用 ref 获取元素 -->
+                <h1 ref="myh1">这是一个大大的H1</h1>
+
+                <hr>
+                <!-- 使用 ref 获取子组件 -->
+                <my-com ref="mycom"></my-com>
+          </div>
+        </div>
+
+        <script>
+        Vue.component('my-com', {
+                template:'<h5>这是一个子组件</h5>',
+                data(){
+                        return{
+                                name:'子组件'
+                        }
+                }
+        });
+
+        <!-- 创建Vue实例，得到ViewModel -->
+        var vm = new Vue({
+                el:"#app",
+                data:{ },
+                methods:{
+                        getElement(){
+                                <!-- 通过 this.$refs 来获取元素 -->
+                                console.log(this.$refs.myh1.innerText);
+                                <!-- 通过 this.$refs 来获取组件 -->
+                                console.log(this.$refs.mycom.name)
+                        }
+                }
+        });
+        </script>
+
+## 路由
+
+- 后端路由：对于普通网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；
+
+- 前端路由：对于单页面应用程序来说，主要通过URL中的hash(#号)来实现不同页面之间的切换，同时，hash有一个特点：HTTP请求中不会包含hash相关的内容；所以，单页面程序中的页面跳转主要用hash实现；
+
+- 在单页面应用程序中，这种通过hash改变来切换页面的方式，称作前端路由（区别于后端路由）；
+
+### vue-router
+
+- 1.导入vue-router组件类库
+
+        <!-- 1.导入vue-router组件类库 -->
+        <script src="../lib/vue-router-2.7.0.js"></script>
+
+- 2.使用vue-router组件来导航
+
+        <!-- 2.使用router-link组件来导航 -->
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+- 3.使用router-view组件来显示匹配的组件
+
+        <!-- 3.使用router-view来显示匹配的组件 -->
+        <router-view><router-view>
+
+- 4.创建使用`Vue.extend`创建组件
+
+        <!-- 使用Vue.extend来创建登录组件 -->

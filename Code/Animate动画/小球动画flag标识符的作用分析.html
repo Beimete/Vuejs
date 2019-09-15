@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>小球半场动画flag标识符作用分析</title>
+    <script src="../lib/vue.js"></script>
+    <style>
+        .ball{
+            width:15px;
+            height:15px;
+            border-radius:50%;
+            background-color:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="加入购物车" @click="flag=!flag">
+        <!-- 1. 使用transition元素 把小球包裹起来 -->
+        <transition
+         @before-enter="beforeEnter"
+         @enter="enter"
+         @after-enter="afterEnter">
+            <div class="ball" v-show="flag"></div>
+        </transition>
+    </div>
+</body>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                flag:false
+            },
+            methods:{
+                // 动画钩子函数的第一个函数，表示被执行动画的DOM元素
+                // 可以理解成 el 是通过 document.getElementById('')获取的原生JavaScript对象
+                beforeEnter(el){
+                    // beforeEnter表示动画尚未开始的状态，设置动画启动之前的起始样式（位置和属性）
+                    el.style.transform = "translate(0,0)"
+                },
+                enter(el, done){
+                    // offsetWidth 没有实际的作用，若不加上此行代码，动画失效
+                    // 可以认为 el.offsetWidth 会强制动画刷新；或者el.offsetheight/left/top均可
+                    el.offsetWidth;
+                    // enter表示动画开始后的元素样式，这里可以设置小球完成之后的结束状态
+                    el.style.transform = "translate(150px, 450px)";
+                    el.style.transition = "all 1s ease";
+
+                    // 效果：动画元素调用完立即消失
+                    // done即afterEnter这个函数，也就是说，done是afterEnter函数的引用ref
+                    // 必须要写done()，否则动画完整效果有延迟
+                    done()
+                },
+                afterEnter(el){
+                    // 动画完成之后，会调用afterEnter
+                    // 第一个功能是控制小球的显示与隐藏；
+                    // 第二个功能是直接跳过后半场动画，让flag标识符直接变为false
+                    // 当第二次点击button时，flag仍然会从false --> true，还是没有后半场动画
+                    this.flag=!this.flag;
+
+                    // el.style.opacity=0.5
+                    // Vue把一个完整的动画，使用钩子函数，拆分成了两个半场；这里使用flag标识符实现小球动画的切换
+                    // flag= false --> true --> false
+                }
+            }
+        })
+    </script>
+</html>
