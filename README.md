@@ -803,6 +803,30 @@
 
 ### 监听名称案例
 
+- methods方式
+
+        getFullname(){
+                this.fullname = this.firstname + '-' + this.lastname
+        }
+
+- watch方式
+
+         watch:{
+                firstname:function(newVal, oldVal){
+                        this.fullname = newVal + '-' + this.lastname
+                },
+                lastname:function(newVal){
+                        this.fullname = this.firstname + '-' + newVal
+                }
+        }
+
+- computed方式
+
+        'fullname':function(){
+                    console.log('ok')
+                    return this.firstname + '-'+ this.middlename + '-' + this.lastname
+        }
+
 ### `watch`、`computed`、`methods`之间的对比
 
 - `computed`属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算，主要当做属性来使用；
@@ -812,3 +836,85 @@
 - `watch`一个对象，键是需要观察的表达式，值是对应的回调函数，主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作，可以看作是`computed`和`methods`的结合体。
 
 ## nrm的安装使用
+
+- [NPM镜像源地址](https://registry.npmjs.org/)
+
+- 作用：它提供了一些最常用的NPM包镜像地址，能够让我们快速地切换安装包的服务器地址；
+
+- 镜像：原来，包刚一开始是只存在于国外的NPM服务器，但是由于网络原因，经常访问不到，这时候，我们可以在国内，创建一个和官网完全一样的NPM服务器，只不过，数据是从人家那里拿过来的，除此之外，使用方式完全一样；
+
+- 安装步骤：
+
+        - 1.运行`npm i nrm -g`全局安装`nrm`包；
+        - 2.使用`nrm ls`查看当前所有可用的镜像源地址以及当前所使用的镜像源地址；
+        - 3.使用`nrm use npm`或`nrm use taobao`切换不同的镜像源地址；
+
+- 注意：nrm只是单纯地提供了几个常用的下载包的URL地址，并能够让我们在这几个地址之间，很方便地进行切换；但是我们每次安装包的时候，使用的装包工具，都是 npm，nrm只是改变了 npm 的装包地址；
+
+### 相关文件
+
+- [URL中的hash(#)](http://www.cnblogs.com/joyho/articles/4430148.html)
+
+## Webpack
+
+- 在网页中会引用哪些常见的静态资源？
+
+        - JS
+          - .js  .jsx  .coffee .ts(TypeScript 类 C# 语言)
+        - CSS
+          - .css .less .sass .scss
+        - Images
+          - .jpg .png .gif .bmp .svg
+        - Fonts
+          - .svg .ttf .eot .woff .woff2
+        - 模板文件
+          - .ejs .jade .vue[这是在webpack中定义组件的方式，推荐这么使用]
+
+- 网页中引入的静态资源多了以后有什么问题？
+
+        - 1.需要发起很多的二次请求，网页加载速度慢；
+        - 2.需要处理错综复杂的依赖关系
+
+- 如何解决上述两个问题？
+
+        - 1.合并、压缩、精灵图、图片的Base64编码；
+        - 2.可以使用之前学过的requireJS，也可以使用webpack解决各个包之间的复杂依赖关系
+
+- 什么是Webpack?
+
+        - webpack是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具；
+
+### 如何完美实现上述的两种解决方案
+
+- 1.使用Gulp，是基于task任务的；
+
+- 2.使用Webpack，是基于整个项目进行构建的；
+
+- 借助于webpack前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能
+
+- 根据官网的图片介绍webpack打包的过程
+
+- [Webpack官网](http://webpack.github.io/)
+
+### webpack安装的两种方式
+
+- 1.运行`npm i webpack -g`全局安装webpack，这样就能在全局使用webpack的命令
+
+- 2.在项目根目录中运行`npm i webpack --save-dev`安装到项目依赖中
+
+### 初步使用webpack打包构建列表隔行变色案例
+
+- 1.运行`npm init`初始化项目，使用npm管理项目中的依赖包
+
+- 2.创建项目基本的目录结构
+
+- 3.使用`cnpm i jquery --save`安装jquery类库
+
+- 4.创建`main.js`并书写各行变色的代码逻辑
+
+        <!-- 导入jQuery类库 -->
+        import $ from 'jquery'
+        <!-- 设置偶数行背景色，索引从0开始，0是偶数 -->
+        $('#list li:even').css('backgroundColor', 'lightblue');
+        <!-- 设置奇数行背景色 -->
+        $('#list li:odd').css('backgroundColor', 'pink');
