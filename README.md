@@ -896,11 +896,16 @@
 
 - [Webpack官网](http://webpack.github.io/)
 
-### webpack安装的两种方式
+### webpack 3.x 安装的两种方式
 
-- 1.运行`npm i webpack -g`全局安装webpack，这样就能在全局使用webpack的命令
+- 1.运行`npm i webpack -g`全局安装webpack，这样就能在全局使用webpack的命令；
 
 - 2.在项目根目录中运行`npm i webpack --save-dev`安装到项目依赖中
+
+### webpack 4.x安装方式
+
+- webpack 4.x 将 webpack-cli 分离出去了，需要二次配置安装， webpack3.x 的显著区别
+- [参考博客](https://www.jianshu.com/p/c094e42b0bc2)
 
 ### 初步使用webpack打包构建列表隔行变色案例
 

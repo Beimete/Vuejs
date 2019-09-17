@@ -1,0 +1,29 @@
+{
+  "name": "vuejs",
+  "version": "1.0.0",
+  "description": "- Vue.js是目前最火的一个框架，React是最流行的一个框架。React除了开发网站，还可以开发手机App；Vue语法也是可以进行手机App开发的，需要借助于Weex。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beimete/Vuejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Beimete/Vuejs/issues"
+  },
+  "homepage": "https://github.com/Beimete/Vuejs#readme",
+  "dependencies": {
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  }
+}
