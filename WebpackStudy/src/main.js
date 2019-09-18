@@ -15,7 +15,6 @@ import './css/index.css'
 // 如果需要处理非JS文件（如.css样式文件），我们则需要手动安装合适的第三方 loader 加载器
 // 1. 打包处理 css 文件的两个loader插件：npm i style-loader css-loader (postcss-loader) -D 
 // 2. 打开 webpack.config.js 配置文件，在里面新增一个配置节点 module，它是一个对象，对象内部rules 数组属性，其存放了所有第三方文件的匹配与处理规则；
-// 3. 
 
 import './css/index.less'
 // 需要导入第三方的loader: npm i less-loader -D；
@@ -24,7 +23,7 @@ import './css/index.less'
 import './css/index.scss'
 // scss是sass的扩展
 // 需要导入第三方的loader: npm i sass-loader -D；
-// 安装完毕提醒require安装一个 node-sass、sass、fibers: cnpm i node-sass(npm 装不懂)
+// 安装完毕提醒require安装一个 node-sass：cnpm i node-sass -D(npm 装得慢)
 
 $(function(){
     $('li:odd').css('backgroundColor', 'lightgreen');

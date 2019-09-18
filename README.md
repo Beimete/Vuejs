@@ -909,17 +909,114 @@
 
 ### 初步使用webpack打包构建列表隔行变色案例
 
-- 1.运行`npm init`初始化项目，使用npm管理项目中的依赖包
-
-- 2.创建项目基本的目录结构
-
-- 3.使用`cnpm i jquery --save`安装jquery类库
-
-- 4.创建`main.js`并书写各行变色的代码逻辑
-
         <!-- 导入jQuery类库 -->
         import $ from 'jquery'
         <!-- 设置偶数行背景色，索引从0开始，0是偶数 -->
         $('#list li:even').css('backgroundColor', 'lightblue');
         <!-- 设置奇数行背景色 -->
         $('#list li:odd').css('backgroundColor', 'pink');
+
+### webpack 4.x基本配置总结
+
+- 新建一个本地磁盘上的项目根目录文件夹 `WebpackStudy`；
+
+- `npm init -y` 初试化项目，使项目能够使用npm/cnpm/yarn管理项目中的依赖包；若项目根文件夹名称包含中文，`-y`命令不成立，第一步需要手动添加项目的名称；初始化成功后项目根目录下会生成 `package.json`文件；
+
+- 创建项目中的目录结构：`src`(存放项目源码)，`dist`(存放项目打包输出发布版本代码)；
+
+- 在`src`文件夹下分别创建`css`,`js`,`images`文件夹，同级创建`index.html`(项目首页)，`main.js`(项目JS入口文件)；
+
+- `npm`全局安装`webpack`和`webpack-cli`，或本地项目局部使用安装`webpack`和`webpack-cli`（推荐）以及后续项目依赖的 package，项目根目录下会生成`node_modules`文件夹；为方便git版本管理和远程推送，在项目根目录下右键使用`Git Bash Here`输入命令`$ touch .gitignore`，生成`.gitignore.txt`文件，并添加 `node_modules/`，git进行版本控制时，即可以自动忽略`node_modules`的更改；`.gitignore.txt`的[语法规则](https://blog.csdn.net/weixin_34161032/article/details/88836436)；
+
+- `webpack`可以实现的功能有：能够处理`javascript`文件中互相依赖的关系；能够处理 `javascript`文件的兼容问题，能够把浏览器无法识别的高级语法，转换成能正常识别的低级语法；
+
+- 构建`index.html`和`main.js`中的内容；
+
+- 在`VS Code`内视图菜单栏`View`下`Terminal`打开控制台（或快捷键 `Ctrl + 、`），输入`webpack .\src\main.js -o .\dist\bundle.js  --mode=development`，即可以在`dist`文件夹下生成`bunde.js`；
+
+- 在项目根目录`WebpackStudy`下创建`webpack.config.js`配置文件；添加如下代码：
+
+        const path = require('path')
+        <!-- 这是一个配置文件，js文件，通过 Node 中的模块操作，向外暴露了一个配置对象 -->
+        module.exports = {
+        // 设置当前位开发模式
+        mode: 'development',
+        // 入口文件，表示要使用 webpack 打包哪个文件
+        entry: './src/main.js',
+        output:{
+                // 定义输出路径及相关配置
+                // 指定打包好的文件，将输出到哪个目录中
+                path: path.resolve(__dirname, './dist'),
+                // 指定输出的文件名称
+                filename: 'bundle.js'
+        },
+
+可以半自动地在`dist`文件夹下生成`bunde.js`；
+
+- 在控制台使用命令`cnpm i webpack-dev-server -D`安装`webpack-dev-server`工具，实现自动打包编译的功能：
+
+        - 1. 运行 npm i webpack-dev-server -D 把这个工具安装到项目的 本地（局部） 开发依赖；
+        - 2. 安装完毕后，这个工具的用法和 webpack 命令的用法，完全一样；
+        - 3. 由于项目本地局部安装的 webpack-dev-server ，故无法把其当做脚本命令，在powershell终端中直接运行；（只有安装到全局 -g 的工具，才能在终端中正常执行）
+        - 4. 注意：webpack-dev-server 这个工具，如果想要正常运行，在本地项目中，必须安装 webpack；
+        - 5. webpack-dev-server 帮我们打包生成的 bundle.js 并没有存放到实际的物理磁盘上，而是直接托管到了电脑的内存中，所以，我们在项目根目录下，根本找不到这个实时打包好的 bundle.js；
+        - 6. 我们可以认为，webpack-dev-server 把打包好的 bundle.js ，以一种虚拟的形式，托管到项目的根目录中，虽然我们看不到它，但是可以认为，和 dist src node-modules 平级，有一个看不见的文件叫做 bundle.js；
+        - 7. 之所以放在内存中，是因为内存转速快！比硬盘（磁盘）快的多
+        - 8. 停止 webpack-dev-server 的命令行：Ctrl + C；
+        - 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
+
+- 为了能够省去每次输入`webpack .\src\main.js -o .\dist\bundle.js  --mode=development`命令的繁琐，实现自动化的构建打开项目首页``index.html`，可以安装`webpack-dev-server`；提供了两种可行的偷懒方法：
+
+        - method1：在 package.json内部 "scripts" 标签下创建 "webpack-dev-server --open --port 3000 --contentBase src --hot"，然后在控制台执行：npm run dev （推荐使用）；
+
+        - method2：在package.json 内部 "scripts" 标签下创建 "dev2": "webpack-dev-server"，然后在 webpack.config.js 文件中依次执行以下步骤：
+
+                - 启用热更新的第1步：
+                devServer:{
+                        open:true, // 自动打开浏览器
+                        port:3000, // 设置启动时候的运行端口
+                        contentBase: 'src', // 指定托管的根目录
+                        hot: true, // 启用热更新的第1步（其实 webpack 4.x只需第一步就可以，其余的配置是 webpack 3.x）
+                }
+
+                - 启用热更新的第2步：
+                const webpack = require('webpack')
+
+                - 启用热更新的第3步：
+                plugins:[
+                        <!-- new 一个 热更新 的模块对象 -->
+                        new webpack.HotModuleReplacementPlugin()
+                ],
+        然后在控制台执行：npm run dev2 （繁琐，不推荐使用）；
+
+- 直接根据本地磁盘上的`index.html`生成计算机内存中的`index.html`文件：
+
+        - 1. 使用`npm i html-webpack-plugin`安装插件；
+        - 2. 在 webpack.config.js中导入可以在内存中生成 HTML 页面的插件，即 html-webpack-plugin；在webpack.config.js中添加代码：
+  
+                const htmlWebpackPlugin = require('html-webpack-plugin')
+
+
+        - 3. 内存中的index.html文件比物理磁盘上的index.html文件多了一行：
+        /*
+                使用 html-webpack-plugin，不再需要手动处理 bundle.js引用路径；
+                这个 plugin 会自动创建一个合适的 script，并且引用了正确的路径；
+
+                </div>
+                <script type="text/javascript" src="bundle.js"></script></body>
+                </html>
+
+                那么，我们可以尝试将物理磁盘上的 index.html 文件注释掉，理论上可以正常显示 列表各行变色案例
+                经过试验，上面的思路是正确的
+        */
+        - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
+  
+- 在`css`文件夹下分别创建`index.css`,`index.less`,`index.scss`，webpack并不能独立解析，使用loader管理`main.js`文件中的`.css`,`.less`,`.scss`文件；原因和具体步骤在于：
+
+                webpack 默认只能打包处理 JS 类型的文件，无法处理其他的 非JS类型的文件，如果需要处理非JS文件，我们则需要手动安装合适的第三方 loader 加载器：
+                1. 打包处理 css 文件的两个loader插件：npm i style-loader css-loader (postcss-loader 这个是option，可以不装) -D；
+                2. 打开 webpack.config.js 配置文件，在里面新增一个配置节点 module，它是一个对象，对象内部rules 数组属性，其存放了所有第三方文件的匹配与处理规则；
+                3. 打包处理 less 文件，需要导入第三方的loader: npm i less-loader -D；安装完毕提醒require安装一个less：npm i less -D，它是less-loader内部依赖的，我们并不需要定义进module对象下的rules中；
+                4. 打包处理 scss 文件（scss是sass的扩展）需要导入第三方的loader: cnpm i sass-loader -D（确保全局安装了 cnpm；npm install -g cnpm --registry=https://registry.npm.taobao.org ）；安装完毕提醒require安装一个 node-sass：cnpm i node-sass -D（npm 装得慢；
+                5. 根据各种loader加载器的安装提示配置好所需的 node_modules 内包后，最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
+  
