@@ -951,7 +951,11 @@
                 filename: 'bundle.js'
         },
 
-可以半自动地在`dist`文件夹下生成`bunde.js`；
+- 当在 TERMINAL 命令行输入命令 'webpack'，可以半自动地在`dist`文件夹下生成`bunde.js`；它做的几步事情：
+        - 1. 首先，webpack发现，我们并没有通过命令的形式，给它指定入口和出口；
+        - 2. webpack 就会去项目的 根目录 中找到 'webpack.config.js' 的配置文件；
+        - 3. 当找到配置文件后，webpack 会去解析执行它，当解析执行完成后，就得到了配置文件中导出的配置对象；
+        - 4. 当 webpack 拿到配置对象后，就拿到了指定的 入口 和 出口，然后进行打包构建；
 
 - 在控制台使用命令`cnpm i webpack-dev-server -D`安装`webpack-dev-server`工具，实现自动打包编译的功能：
 
@@ -965,7 +969,7 @@
         - 8. 停止 webpack-dev-server 的命令行：Ctrl + C；
         - 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
 
-- 为了能够省去每次输入`webpack .\src\main.js -o .\dist\bundle.js  --mode=development`命令的繁琐，实现自动化的构建打开项目首页``index.html`，可以安装`webpack-dev-server`；提供了两种可行的偷懒方法：
+- 每次输入`webpack`命令后更改代码后页面并不能立即重新渲染，需要再次输入`webpack`命令才能实现；故为了自动化的构建打开项目首页``index.html`，可以安装`webpack-dev-server`（参见上一步）；提供了两种可行的偷懒方法：
 
         - method1：在 package.json内部 "scripts" 标签下创建 "webpack-dev-server --open --port 3000 --contentBase src --hot"，然后在控制台执行：npm run dev （推荐使用）；
 
@@ -996,6 +1000,12 @@
   
                 const htmlWebpackPlugin = require('html-webpack-plugin')
 
+                plugins:[
+                        new htmlWebpackPlugin({
+                        template:'./src/index.html',
+                        filaname:'index.html' 
+                        })
+                ],
 
         - 3. 内存中的index.html文件比物理磁盘上的index.html文件多了一行：
         /*
@@ -1006,7 +1016,7 @@
                 <script type="text/javascript" src="bundle.js"></script></body>
                 </html>
 
-                那么，我们可以尝试将物理磁盘上的 index.html 文件注释掉，理论上可以正常显示 列表各行变色案例
+                那么，我们可以尝试将物理磁盘上的 index.html 文件注释掉，理论上可以正常显示 列表各行变色案例？
                 经过试验，上面的思路是正确的
         */
         - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
@@ -1019,4 +1029,24 @@
                 3. 打包处理 less 文件，需要导入第三方的loader: npm i less-loader -D；安装完毕提醒require安装一个less：npm i less -D，它是less-loader内部依赖的，我们并不需要定义进module对象下的rules中；
                 4. 打包处理 scss 文件（scss是sass的扩展）需要导入第三方的loader: cnpm i sass-loader -D（确保全局安装了 cnpm；npm install -g cnpm --registry=https://registry.npm.taobao.org ）；安装完毕提醒require安装一个 node-sass：cnpm i node-sass -D（npm 装得慢；
                 5. 根据各种loader加载器的安装提示配置好所需的 node_modules 内包后，最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
+                6. 在webpack.config.js中添加代码:
+
+                         module:{
+                                <!-- 这个节点用于配置所有第三方模块的加载器和匹配规则 -->
+                                rules:[
+                                {test: /\.css$/, use:['style-loader', 'css-loader']}, 
+                                <!-- 正则(re)匹配所有以 .css 结尾的文件；'css.loader'必须写在'style.css'的后面，实际调用的规则是 从右往左 依次进行调用； -->
+                               
+                                {test: /\.less$/, use:['style-loader', 'css-loader', 'less-loader']},
+                                <!-- 上面的代码是配置处理 .less 文件的第三方处理规则 -->
+
+                                {test: /\.scss$/, use:['style-loader', 'css-loader', 'sass-loader']}
+                                <!-- 上面一行的代码是配置处理 .scss 文件的第三方处理规则 -->
+                                ]
+
+                7. webpack 处理第三方文件类型的过程：
+                   1. 发现这个要处理的文件不是 JS 文件，然后就去配置文件中查找有没有对应的第三方 loader 规则；
+                   2. 如果能找到对应的规则，就会调用对应的 loader 处理该类型的文件；
+                   3. 在调用loader的时候，是从后往前调用的；
+                   4. 当最后的一个loader调用完毕，会把处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js 中去；
   
