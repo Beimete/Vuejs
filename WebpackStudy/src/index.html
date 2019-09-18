@@ -13,7 +13,12 @@
 
     <!-- <script src="../dist/bundle.js"></script> -->
     <!-- 使用 webpack-dev-server后，bundle.js不再是本地物理磁盘上的 bundle.js，而是在线相对路径 -->
-    <script src="/bundle.js"></script>
+    
+    <!-- <script src="/bundle.js"></script> -->
+    <!-- cpu不能直接从硬盘拿文件，要先将硬盘里的文件调进内存，然后cpu再从内存里调用文件 -->
+
+    <!-- <link rel="stylesheet" href="./css/index.css"> -->
+    <!-- 上面这行代码虽然可行，但是页面需要发起 Ajax 二次请求，违背了webpack 的初衷 -->
 
 </head>
 <body>

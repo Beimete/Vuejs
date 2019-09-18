@@ -8,8 +8,26 @@ import $ from 'jquery'
 // Node 中等价的的pack导入方式
 // const $ = require('jquery')
 
+// 使用 import 语法，导入 css 样式表
+import './css/index.css'
+
+// 注意：webpack 默认只能打包处理 JS 类型的文件，无法处理其他的 非JS类型的文件
+// 如果需要处理非JS文件（如.css样式文件），我们则需要手动安装合适的第三方 loader 加载器
+// 1. 打包处理 css 文件的两个loader插件：npm i style-loader css-loader (postcss-loader) -D 
+// 2. 打开 webpack.config.js 配置文件，在里面新增一个配置节点 module，它是一个对象，对象内部rules 数组属性，其存放了所有第三方文件的匹配与处理规则；
+// 3. 
+
+import './css/index.less'
+// 需要导入第三方的loader: npm i less-loader -D；
+// 安装完毕提醒require安装一个less：npm i less -D，它是less-loader内部依赖的，我们并不需要定义进module对象下的rules中；
+
+import './css/index.scss'
+// scss是sass的扩展
+// 需要导入第三方的loader: npm i sass-loader -D；
+// 安装完毕提醒require安装一个 node-sass、sass、fibers: cnpm i node-sass(npm 装不懂)
+
 $(function(){
-    $('li:odd').css('backgroundColor', 'blue');
+    $('li:odd').css('backgroundColor', 'lightgreen');
     $('li:even').css('backgroundColor', function(){
         return '#'+ 'D97634'
     })
@@ -33,3 +51,21 @@ $(function(){
 // 5. webpack-dev-server 帮我们打包生成的 bundle.js 并没有存放到实际的物理磁盘上，而是直接托管到了电脑的内存中，所以，我们在项目根目录下，根本找不到这个实时打包好的 bundle.js；
 // 6. 我们可以认为，webpack-dev-server 把打包好的 bundle.js ，以一种虚拟的形式，托管到项目的根目录中，虽然我们看不到它，但是可以认为，和 dist src node-modules 平级，有一个看不见的文件叫做 bundle.js；
 // 7. 之所以放在内存中，是因为内存转速快！比硬盘（磁盘）快的多
+// 8. 停止 webpack-dev-server 的命令行：Ctrl + C；
+// 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
+
+// 直接在计算机内存根据index.html生成 html文件
+// 1. 使用`npm i html-webpack-plugin`安装插件；
+// 2. 在 webpack.config.js中导入可以在内存中生成 HTML 页面的插件，即 html-webpack-plugin；
+// 3. 内存中的index.html文件比物理磁盘上的index.html文件多了一行：
+    /*
+        使用 html-webpack-plugin，不再需要手动处理 bundle.js引用路径；
+        这个 plugin 会自动创建一个合适的 script，并且引用了正确的路径；
+
+        </div>
+        <script type="text/javascript" src="bundle.js"></script></body>
+        </html>
+
+        那么，我们可以尝试将物理磁盘上的 index.html 文件注释掉，理论上可以正常显示 列表各行变色案例
+        经过试验，上面的思路是正确的
+    */
