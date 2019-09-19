@@ -855,6 +855,36 @@
 
 - [URL中的hash(#)](http://www.cnblogs.com/joyho/articles/4430148.html)
 
+### 常用的npm命令行总结
+
+- 它是世界上最大的软件注册表，每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
+
+- npm安装第三方包
+
+        - npm init //在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
+        - npm install xxx  //安装模块如不指定版本号，默认会安装最新的版本，安装但不写入package.json
+        - npm install xxx 0.0.1  //安装指定版本的模块
+        - npm install --save xxx //--save相当于-s，安装并把模块的版本信息保存到dependencies（生产环境依赖）中，即你的package.json文件的dependencies字段中
+        - npm install --global xxx // --global相当于-g 全局安装
+        - npm install --save-dev xxx // --save-dev相当于-d，安装并把模块版本信息保存到devDependencies（开发环境依赖）中，即你的package.json文件的devDependencies字段中
+        - npm install --save-optional xxx // --save-optional相当于-o，安装并把模块安装到optionalDependencies（可选环境依赖）中，即你的package.json文件的optionalDependencies字段中
+        - npm install --save-exact xxx // --save-exact相当于-e，精确的安装指定版本的模块，dependencies字段里每个模块版本号前面的^会取消掉
+
+- npm升降包版本
+
+        - npm list <package> 查看现有package版本
+        - npm install --save <package>@x.y.z  升级/降级到指定版本
+
+- npm删除包
+
+        - 删除全局模块：npm uninstall -g <package>
+
+        - 删除本地模块：npm uninstall 模块，删除本地模块时你应该思考的问题：是否将在package.json上的相应依赖信息也消除？
+
+                - npm uninstall <package>：删除模块，但不删除模块留在package.json中的对应信息
+                - npm uninstall <package> --save 删除模块，同时删除模块留在package.json中dependencies下的对应信息
+                - npm uninstall <package> --save-dev 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
+
 ## Webpack
 
 - 在网页中会引用哪些常见的静态资源？
@@ -1020,7 +1050,9 @@
                 经过试验，上面的思路是正确的
         */
         - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
-  
+
+### webpack配置css-loader、less-loader涣然scss.loader
+
 - 在`css`文件夹下分别创建`index.css`,`index.less`,`index.scss`，webpack并不能独立解析，使用loader管理`main.js`文件中的`.css`,`.less`,`.scss`文件；原因和具体步骤在于：
 
                 webpack 默认只能打包处理 JS 类型的文件，无法处理其他的 非JS类型的文件，如果需要处理非JS文件，我们则需要手动安装合适的第三方 loader 加载器：
@@ -1050,7 +1082,7 @@
                    3. 在调用loader的时候，是从后往前调用的；
                    4. 当最后的一个loader调用完毕，会把处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js 中去；
 
-### webpack中的url-loader
+### webpack中配置url-loader
 
 - 默认情况下，webpack无法处理css文件中的url地址，不管是 图片 还是 字体库；
 
@@ -1070,34 +1102,44 @@
 
 - `cnpm i bootstrap -S`本地生成环境下安装`bootstrap`框架，并在`index.html`页面中引入`<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>`，然后在`webpack.config.js`中配置解析字体文件的loader：`{test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}`，最后在控制台运行`npm run dev`可以在页面中看到heart。
 
-### 常用的npm命令行总结
+### webpack中配置babel-loader
 
-- 它是世界上最大的软件注册表，每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
+- ES6中面向对象高级class语句的解析，webpack默认只能处理一部分ES6新语法，必须安装配置`Babel`才能正常处理一些更高级的ES6或者ES7语法；当第三方loader把高级原发转为低级语法之后，会把结果较为webpack去打包到bundle.js中；
 
-- npm安装第三方包
+- 现在(2019.9.19)`babel-loader`已经更新到`version 8`，合适的安装命令是：   `cnpm i babel-core babel-loader@7 babel-plugin-transform-runtime -D`,`cnpm i babel-preset-env babel-preset-stage-0 -D`，两条命令两套包；
 
-        - npm init //在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
-        - npm install xxx  //安装模块如不指定版本号，默认会安装最新的版本，安装但不写入package.json
-        - npm install xxx 0.0.1  //安装指定版本的模块
-        - npm install --save xxx //--save相当于-s，安装并把模块的版本信息保存到dependencies（生产环境依赖）中，即你的package.json文件的dependencies字段中
-        - npm install --global xxx // --global相当于-g 全局安装
-        - npm install --save-dev xxx // --save-dev相当于-d，安装并把模块版本信息保存到devDependencies（开发环境依赖）中，即你的package.json文件的devDependencies字段中
-        - npm install --save-optional xxx // --save-optional相当于-o，安装并把模块安装到optionalDependencies（可选环境依赖）中，即你的package.json文件的optionalDependencies字段中
-        - npm install --save-exact xxx // --save-exact相当于-e，精确的安装指定版本的模块，dependencies字段里每个模块版本号前面的^会取消掉
+- 打开webpack.config.js文件，在module节点下的rules数组内部添加一个新的匹配规则：`{test:/\.js$/, use:'babel-loader', exclude:/node_modules/}`；
 
-- npm升降包版本
+- 在配置babel的loader规则的时候，必须把node_modules目录通过exclude选项排除掉，原因是：
 
-        - npm list <package> 查看现有package版本
-        - npm install --save <package>@x.y.z  升级/降级到指定版本
+        - 如果不排除 node_modules，则babel会把所有的第三方JS文件都打包编译，这样会非常消耗计算机的CPU，同时打包速度和效率很低；
+        - 哪怕最终babel把所有node_modules中JS文件转换完毕，项目也无法正常运行；
 
-- npm删除包
+- 在项目根目录（WebpackStudy）中新建一个 .babelrc 的Babel配置文件，这个配置文件属于JSON格式，必须符合JSON语法规范，比如不能写注释，字符串必须用双引号（""）；在.babelrc中添加一下配置代码：可以把presets翻译成“语法”的意思
 
-        - 删除全局模块：npm uninstall -g <package>
+        {
+                "presets":["env", "stage-0"],
+                "plugins":["transform-runtime"]
+        }
 
-        - 删除本地模块：npm uninstall 模块，删除本地模块时你应该思考的问题：是否将在package.json上的相应依赖信息也消除？
+- 关于Babel的几点说明：
 
-                - npm uninstall <package>：删除模块，但不删除模块留在package.json中的对应信息
-                - npm uninstall <package> --save 删除模块，同时删除模块留在package.json中dependencies下的对应信息
-                - npm uninstall <package> --save-dev 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
+        - `babel-core babel-loader@7 babel-plugin-transform-runtime`，仅安装这三个包，babel是无法正常工作的；它们只能进行转换，但是不明确高级语法(ES6)和低级语法(ES3)之间的对应关系；
+        - `babel-preset-env babel-preset-stage-0`是babel语法字典，提供了具体语法之间的对应关系；
+        - `babel-preset-env`是新的ES语法插件，之它出现之前安装的语法包是`babel-preset-es2015`，`babel-preset-env`包含所有与ES***相关的语法；
 
-### 
+## Vue中渲染组件的render函数
+
+- 在webpack中配置.vue组件页面的解析
+
+        - 1.运行`cnpm i vue -S`将vue安装为运行依赖；
+        - 2.运行`cnpm i vue-loader vue-template-compiler -D`将解析转换vue的安装包为开发依赖；
+        - 3.运行`cnpm i style-loader css-loader -D`将解析转换CSS的包安装为开发依赖，因为vue文件中会写CSS样式；
+        - 4.在`webpack.config.js`中，添加`module`规则：
+
+                module:{
+                        rules:[
+                        {test:/\.css$/,use:['style-loader', 'css-loader']},
+                        {test:/\.vue$/,use:'vue-loader'}
+                        ]
+                }

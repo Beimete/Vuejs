@@ -61,8 +61,11 @@ module.exports = {
             // limit给定的值是图片的大小，单位是byte，目的是让大图保真，让小图压缩；
             // 如果所引用的图片大于或等于给定的limit值，则不会被转换为base64格式的字符串，反之会被转为base64格式的字符串
 
-            {test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}
+            {test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'},
             // 上面一行的代码是配置处理字体文件的loader，一般不要将字体和图片的loader混写在一起
+
+            {test:/\.js$/, use:'babel-loader', exclude:/node_modules/}
+            // 在配置babel的loader规则的时候，必须把node_modules目录通过exclude选项排除掉
         ]
     }
 };

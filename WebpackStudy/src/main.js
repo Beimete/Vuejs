@@ -35,39 +35,29 @@ $(function(){
     })
 })
 
-// main.js 在 webpack4.x 上根目录 WebpackStudy 内部的处理命令为：
 
-//  npm init -y
-//  npm i jquery -S
-//  webpack .\src\main.js -o .\dist\bundle.js  --mode=development
+// class是关键字，ES6中提供的新语法，用来实现面向对象的编程方式，与java, C#实现面向对象的方法一样，class是从后端语言中借鉴过来的
+// 之前 ES3 版本的写法如下：
+// function Animal(name){
+//     this.name = name
+// };
 
-// 经过演示，webpack可以实现的功能有：
-// 1. webpack 能够处理 javascript 文件中互相依赖的关系
-// 2. webpack 能够处理 javascript 文件的兼容问题，能够把浏览器无法识别的高级语法，转换成能正常识别的低级语法
+// function的本质是一个对象
+// Animal.info = 123;
 
-// 使用 webpack-dev-server 工具，实现自动打包编译的功能
-// 1. 运行 npm i webpack-dev-server -D 把这个工具安装到项目的 本地（局部） 开发依赖；
-// 2. 安装完毕后，这个工具的用法和 webpack 命令的用法，完全一样；
-// 3. 由于项目本地局部安装的 webpack-dev-server ，故无法把其当做脚本命令，在powershell终端中直接运行；（只有安装到全局 -g 的工具，才能在终端中正常执行）
-// 4. 注意：webpack-dev-server 这个工具，如果想要正常运行，在本地项目中，必须安装 webpack；
-// 5. webpack-dev-server 帮我们打包生成的 bundle.js 并没有存放到实际的物理磁盘上，而是直接托管到了电脑的内存中，所以，我们在项目根目录下，根本找不到这个实时打包好的 bundle.js；
-// 6. 我们可以认为，webpack-dev-server 把打包好的 bundle.js ，以一种虚拟的形式，托管到项目的根目录中，虽然我们看不到它，但是可以认为，和 dist src node-modules 平级，有一个看不见的文件叫做 bundle.js；
-// 7. 之所以放在内存中，是因为内存转速快！比硬盘（磁盘）快的多
-// 8. 停止 webpack-dev-server 的命令行：Ctrl + C；
-// 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
+// var a1 = new Animal('小花');
 
-// 直接在计算机内存根据index.html生成 html文件
-// 1. 使用`npm i html-webpack-plugin -D`安装插件；
-// 2. 在 webpack.config.js中导入可以在内存中生成 HTML 页面的插件，即 html-webpack-plugin；
-// 3. 内存中的index.html文件比物理磁盘上的index.html文件多了一行：
-    /*
-        使用 html-webpack-plugin，不再需要手动处理 bundle.js引用路径；
-        这个 plugin 会自动创建一个合适的 script，并且引用了正确的路径；
+//静态属性，挂载到Animal构造函数，内存中本身就存在一个Animate对象上
+// console.log(Animal.info); 
 
-        </div>
-        <script type="text/javascript" src="bundle.js"></script></body>
-        </html>
+// 实例属性，挂载给Animal构造函数所创建出来的那一块 新内存 中
+// console.log(a1.name); 
 
-        那么，我们可以尝试将物理磁盘上的 index.html 文件注释掉，理论上可以正常显示 列表各行变色案例
-        经过试验，上面的思路是正确的
-    */
+class Person{
+    // 使用static关键字可以定义静态属性，即可以直接通过类名进行访问的属性 Person.info；
+    // 实例属性：只能通过类的实例进行访问的属性，叫做实例属性 var p1 = new Person(); p1.xxx
+    static info = {name:'zs', age:20}
+}
+
+// 访问 Person 类身上的 info 静态属性
+console.log(Person.info)
