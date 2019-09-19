@@ -53,8 +53,16 @@ module.exports = {
             {test: /\.less$/, use:['style-loader', 'css-loader', 'less-loader']},
             // 上面一行的代码是配置处理 .less 文件的第三方处理规则
 
-            {test: /\.scss$/, use:['style-loader', 'css-loader', 'sass-loader']}
+            {test: /\.scss$/, use:['style-loader', 'css-loader', 'sass-loader']},
             // 上面一行的代码是配置处理 .scss 文件的第三方处理规则
+
+            {test: /\.(jpg|png|gif|bmp|jpeg)$/, use:'url-loader?limit=18702&name=[hash:8]-[name].[ext]'},
+            // 上面一行的代码是配置处理图片路径的loader
+            // limit给定的值是图片的大小，单位是byte，目的是让大图保真，让小图压缩；
+            // 如果所引用的图片大于或等于给定的limit值，则不会被转换为base64格式的字符串，反之会被转为base64格式的字符串
+
+            {test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}
+            // 上面一行的代码是配置处理字体文件的loader，一般不要将字体和图片的loader混写在一起
         ]
     }
 };

@@ -969,7 +969,7 @@
         - 8. 停止 webpack-dev-server 的命令行：Ctrl + C；
         - 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
 
-- 每次输入`webpack`命令后更改代码后页面并不能立即重新渲染，需要再次输入`webpack`命令才能实现；故为了自动化的构建打开项目首页``index.html`，可以安装`webpack-dev-server`（参见上一步）；提供了两种可行的偷懒方法：
+- 每次输入`webpack`命令后更改代码后页面并不能立即重新渲染，需要再次输入`webpack`命令才能实现；故为了自动化的构建打开项目首页`index.html`，可以安装`webpack-dev-server`（参见上一步）；提供了两种可行的偷懒方法：
 
         - method1：在 package.json内部 "scripts" 标签下创建 "webpack-dev-server --open --port 3000 --contentBase src --hot"，然后在控制台执行：npm run dev （推荐使用）；
 
@@ -995,15 +995,15 @@
 
 - 直接根据本地磁盘上的`index.html`生成计算机内存中的`index.html`文件：
 
-        - 1. 使用`npm i html-webpack-plugin`安装插件；
+        - 1. 使用`npm i html-webpack-plugin -D`安装插件；
         - 2. 在 webpack.config.js中导入可以在内存中生成 HTML 页面的插件，即 html-webpack-plugin；在webpack.config.js中添加代码：
   
                 const htmlWebpackPlugin = require('html-webpack-plugin')
 
                 plugins:[
                         new htmlWebpackPlugin({
-                        template:'./src/index.html',
-                        filaname:'index.html' 
+                                template:'./src/index.html',
+                                filaname:'index.html' 
                         })
                 ],
 
@@ -1049,4 +1049,55 @@
                    2. 如果能找到对应的规则，就会调用对应的 loader 处理该类型的文件；
                    3. 在调用loader的时候，是从后往前调用的；
                    4. 当最后的一个loader调用完毕，会把处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js 中去；
-  
+
+### webpack中的url-loader
+
+- 默认情况下，webpack无法处理css文件中的url地址，不管是 图片 还是 字体库；
+
+- `cnpm i url-loader file-loader -D`安装解析url地址；
+
+- 打开`webpack.config.js`文件中`module`内`rules`添加代码：{test: /\.(jpg|png|gif|bmp|jpeg)$/, use:'url-loader?limit=833989&name=[name].[ext]'}，配置处理图片路径的loader；
+
+- 第一个参数limit给定的值是图片的大小，单位是byte，目的是“让大图保真，让小图压缩”；
+
+- 如果所引用的图片大于或等于给定的limit值，则不会被转换为base64格式的字符串；反之会被转为base64格式的字符串。对于前者，图片会被重命名为hash值，如`images`文件夹下的`margic.jpg`大小超过limit=833989，会被重命名为“73c2b320c93331b838ef703c36ed6300.jpg”。
+
+- 第二个参数name=[name].[ext]表示文件名称和后缀名保持不变，这样配置之后的图片`magic.jpg`名称和拓展名不会发生变化，托管的地址也不变；
+
+- 当页面中存在不同文件夹下的同名资源`magic.jpg`，且它们的格式大小均大于`limit=18702`，解析的时候均不会被转换成base64格式的字符串；反而都会被解析成格式相对较小的`magic.jpg`，并`Compiled with warnings`:`Multiple assets emit different content to the same filename magic.jpg`；
+
+- 为避免出现上一步的情况，可以给同名文件加上一个hash值（最长32位，此处截取前8位）前缀：[hash:8]-[name].[ext]'，结果就可以`Compiled successfully`；
+
+- `cnpm i bootstrap -S`本地生成环境下安装`bootstrap`框架，并在`index.html`页面中引入`<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>`，然后在`webpack.config.js`中配置解析字体文件的loader：`{test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}`，最后在控制台运行`npm run dev`可以在页面中看到heart。
+
+### 常用的npm命令行总结
+
+- 它是世界上最大的软件注册表，每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
+
+- npm安装第三方包
+
+        - npm init //在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
+        - npm install xxx  //安装模块如不指定版本号，默认会安装最新的版本，安装但不写入package.json
+        - npm install xxx 0.0.1  //安装指定版本的模块
+        - npm install --save xxx //--save相当于-s，安装并把模块的版本信息保存到dependencies（生产环境依赖）中，即你的package.json文件的dependencies字段中
+        - npm install --global xxx // --global相当于-g 全局安装
+        - npm install --save-dev xxx // --save-dev相当于-d，安装并把模块版本信息保存到devDependencies（开发环境依赖）中，即你的package.json文件的devDependencies字段中
+        - npm install --save-optional xxx // --save-optional相当于-o，安装并把模块安装到optionalDependencies（可选环境依赖）中，即你的package.json文件的optionalDependencies字段中
+        - npm install --save-exact xxx // --save-exact相当于-e，精确的安装指定版本的模块，dependencies字段里每个模块版本号前面的^会取消掉
+
+- npm升降包版本
+
+        - npm list <package> 查看现有package版本
+        - npm install --save <package>@x.y.z  升级/降级到指定版本
+
+- npm删除包
+
+        - 删除全局模块：npm uninstall -g <package>
+
+        - 删除本地模块：npm uninstall 模块，删除本地模块时你应该思考的问题：是否将在package.json上的相应依赖信息也消除？
+
+                - npm uninstall <package>：删除模块，但不删除模块留在package.json中的对应信息
+                - npm uninstall <package> --save 删除模块，同时删除模块留在package.json中dependencies下的对应信息
+                - npm uninstall <package> --save-dev 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
+
+### 

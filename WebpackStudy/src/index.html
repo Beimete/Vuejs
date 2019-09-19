@@ -20,6 +20,8 @@
     <!-- <link rel="stylesheet" href="./css/index.css"> -->
     <!-- 上面这行代码虽然可行，但是页面需要发起 Ajax 二次请求，违背了webpack 的初衷 -->
 
+    <!-- <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css"> -->
+    <!-- 可能是bootstrap版本不一致的原因，上面的传统方式引入heart图标没有成功显示，because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled. -->
 </head>
 <body>
     <ul>
@@ -34,5 +36,12 @@
         <li>这个是第9个li</li>
         <li>这个是第10个li</li>
     </ul>
+
+    <br>
+    <br> 
+    <div class="box"></div>
+    <div class="box2"></div>
+
+    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
 </body>
 </html>

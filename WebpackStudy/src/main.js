@@ -25,10 +25,13 @@ import './css/index.scss'
 // 需要导入第三方的loader: npm i sass-loader -D；
 // 安装完毕提醒require安装一个 node-sass：cnpm i node-sass -D(npm 装得慢)
 
+// 如果要通过路径的形式，去引入 node_modules 中相关的文件，可以直接省略路径前面的node_modules这一层目录，直接写包的名字+具体文件路径
+import 'bootstrap/dist/css/bootstrap.css'
+
 $(function(){
     $('li:odd').css('backgroundColor', 'lightgreen');
     $('li:even').css('backgroundColor', function(){
-        return '#'+ 'D97634'
+        return '#'+ 'D97699'
     })
 })
 
@@ -54,7 +57,7 @@ $(function(){
 // 9. --hot 对于bundle.js没有浪费资源全部重新加载，只是局部打了补丁；对于.js页面还是有刷新的，.css页面可以无刷新；
 
 // 直接在计算机内存根据index.html生成 html文件
-// 1. 使用`npm i html-webpack-plugin`安装插件；
+// 1. 使用`npm i html-webpack-plugin -D`安装插件；
 // 2. 在 webpack.config.js中导入可以在内存中生成 HTML 页面的插件，即 html-webpack-plugin；
 // 3. 内存中的index.html文件比物理磁盘上的index.html文件多了一行：
     /*
