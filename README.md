@@ -1142,7 +1142,7 @@
 
 - 使用render中createElements渲染组件会把vm挂载对象vm中所有内容均清空，只保留组件并放到指定位置，相当于v-text；一个app中只能渲染一个component；
 
-### webpack构建的项目中进行Vue开发
+### webpack构建的项目中进行Vue开发一般步骤
 
 - webpack中使用`import Vue from 'vue'`导入的Vue构造函数功能不完整，只提供了阉割版的`runtime-only`的方式，并没有提供像网页中以`script`引入的完整版本功能；
 
@@ -1166,6 +1166,12 @@
 
 - 如何在`runtime-only`模式下运行传统的`components`渲染组件的呢？它好像就是不行，还是让render()来渲染组件吧；
 
+- 在`src`目录下创建`login.vue`组件文件，由template,script,style三部分组成；在`main.js`内部导入`login`组件：`import login from './login.vue'`；并且在vm实例中用render进行渲染：
+
+        render:function(createElements){
+                return createElements(login)
+        }
+
 - 在webpack中配置.vue组件页面的解析
 
         - 1. 运行`npm i vue -S`将vue安装为运行依赖；
@@ -1180,3 +1186,56 @@
                                 {test:/\.vue$/,use:'vue-loader'}
                         ]
                 }
+
+### `export default`和`export`的使用
+
+- 和Node类似，在一个模块中，ES6可以同时使用`export default`和`export`向外暴露成员；
+
+- `export default`向外暴露的成员，可以使用任意的变量来接收：
+
+        var info = {
+        name:'zs',
+        age:20,
+        date:'2019-09-09'
+        };
+
+        export default info
+
+- `export default`无法多次使用，暴露多个成员，会报错`Only one default export allowed per model`，这个时候`export`就派上用途了；
+
+- 使用`export`向外暴露的成员，只能使用`{}`的形式接收，叫做`按需导出`；可以一次暴露多个成员；同时如果某些成员，我们在`import`时不需要，则可以不出现在`{}`中；
+
+- 注意：使用`export`导出的成员，必须严格按照导出时候的名称，来使用`{}`接收；但是，如果想换个名称来接收，可以使用`as`取别名，再进行二次使用；
+
+### webpack使用vue-router
+
+- 1.导入`vue-router`包
+
+- 2.创建`app`组件，`account`组件，`goodslist`组件，
+
+- 3.创建路由对象
+
+        var router = new VueRouter({
+        routes:[
+                {path:'/account', component:account},
+                {path:'/goodslist', component:goodslist},
+        ]
+        })
+
+- 4.将路由对象挂载到vm实例身上
+
+- 5.render会把el指定的容器内所有内容都清空覆盖，所以不能把`<router-view></router-view>`和`<router-link></router-link>`直接写到el所控制的元素中；这个时候，应该把它们放到`App.vue`中；
+
+- 注意：`App`这个组件是通过vm实例的`render`函数渲染出来的，它只能放到el所指定的容器中；然而，`Account`和`GoodsList`组件是通过路由监听到，所以这个两个组件只能展示到属于路由的`<router-view></router-view>`；
+
+- 子路由的嵌套语法没有什么特别需要注意的，子路由的`<router-view></router-view>`和`<router-link></router-link>`记得放到对应的父路由内部；
+
+### scoped属性选择器的实现原理
+
+- 普通的style标签只支持普通的样式，若想启动scss或less需要为style元素设置lang属性；只要style标签是在.vue组件中定义的，推荐给style开启scoped属性，这么做样式将局部而不是不会全局适用；
+
+- 添加`scoped`后，会在`div`的属性内部追加类似于`data-v-53d445f4`，通过css的属性选择器实现效果控制的；
+  
+## MintUI组件
+
+- [Mint-UI官方文档](http://mint-ui.github.io/#!/zh-cn)

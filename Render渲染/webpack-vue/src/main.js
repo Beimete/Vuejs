@@ -32,3 +32,7 @@ var vm = new Vue({
     render:c => c(login)
     
 })
+
+import m1, {title as t, content} from './test.js'
+console.log(m1);
+console.log(t + '---' + content);
