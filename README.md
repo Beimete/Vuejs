@@ -859,6 +859,14 @@
 
 - 它是世界上最大的软件注册表，每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
 
+- npm一键安装package.json里的依赖文件
+
+        - npm install 默认安装package.json中的所有模块；
+        - npm install --dependencies 只想安装dependencies中的内容；
+        - npm install --devDependencies 只想安装devDependencies中的内容；
+        - 注意：这里安装的package.json中所有依赖的模块，都是package.json中指定的版本。如果需要安装最新的版本则要：
+            - npm update <package_name>//要安装的模块的名字 
+
 - npm安装第三方包
 
         - npm init //在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
@@ -1130,16 +1138,45 @@
 
 ## Vue中渲染组件的render函数
 
+- 使用components渲染组件之后替换页面中相应位置处的内容，相对于常量表达式；
+
+- 使用render中createElements渲染组件会把vm挂载对象vm中所有内容均清空，只保留组件并放到指定位置，相当于v-text；一个app中只能渲染一个component；
+
+### webpack构建的项目中进行Vue开发
+
+- webpack中使用`import Vue from 'vue'`导入的Vue构造函数功能不完整，只提供了阉割版的`runtime-only`的方式，并没有提供像网页中以`script`引入的完整版本功能；
+
+- `import Vue from 'vue'`与Node中`var Vue = require('Vue')`的包（package）查找规则完全一样：
+
+        - 1. 找项目根目录中有没有`node_modules`文件夹；
+        - 2. 在`node_modules`中根据`package_name`找到对应的`vue`文件夹；
+        - 3. 在`vue`文件夹中找`package.json`的包配置文件；
+        - 4. 在`package.json`文件中查找一个`main`属性（指定包在被加载`import`或`require`时的入口文件功能），发现指向的入口是："dist/vue.runtime.common.js"
+
+- 虽然可以手动更改`vue`的`package.json`文件中`main`指定的入口至`"dist/vue.js"`，但不推荐这样使用；推荐的修改方式：
+
+        - 1. 可以将`import Vue from 'vue'`手动更改成`import Vue from '../node_modules/vue/dist/vue.js'`；
+        - 2. `import Vue from 'vue'`保持不变，在`webpack.config.js`中添加`resolve`节点属性：
+
+                resolve:{
+                        alias:{
+                                'vue$':'vue/dist/vue.esm/js'
+                        }
+                }
+
+- 如何在`runtime-only`模式下运行传统的`components`渲染组件的呢？它好像就是不行，还是让render()来渲染组件吧；
+
 - 在webpack中配置.vue组件页面的解析
 
-        - 1.运行`cnpm i vue -S`将vue安装为运行依赖；
-        - 2.运行`cnpm i vue-loader vue-template-compiler -D`将解析转换vue的安装包为开发依赖；
-        - 3.运行`cnpm i style-loader css-loader -D`将解析转换CSS的包安装为开发依赖，因为vue文件中会写CSS样式；
-        - 4.在`webpack.config.js`中，添加`module`规则：
+        - 1. 运行`npm i vue -S`将vue安装为运行依赖；
+        - 2. 运行`cnpm i vue-loader vue-template-compiler -D`将解析转换vue的安装包为开发依赖；
+        - 3. 运行`cnpm i style-loader css-loader -D`将解析转换CSS的包安装为开发依赖，因为.vue文件中会写CSS样式；
+        - 4. 必须在`webpack.config.js`添加`const VueLoaderPlugin = require('vue-loader/lib/plugin')`，同时在`plugins`节点下添加`new VueLoaderPlugin()`引入这个插件 ———在之前的版本中好像不需要这个插件，再看教程的时候还是跟着[官方文档](https://vue-loader.vuejs.org/zh/guide/#vue-cli)；
+        - 5. 在`webpack.config.js`中，添加`module`规则：
 
                 module:{
                         rules:[
-                        {test:/\.css$/,use:['style-loader', 'css-loader']},
-                        {test:/\.vue$/,use:'vue-loader'}
+                                {test:/\.css$/,use:['style-loader', 'css-loader']},
+                                {test:/\.vue$/,use:'vue-loader'}
                         ]
                 }
