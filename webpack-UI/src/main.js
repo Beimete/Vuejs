@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 import 'bootstrap/dist/css/bootstrap.css'
 import './css/app.css'
 
+import './lib/mui/css/mui.css'
 
 
 // import MintUI from 'mint-ui'

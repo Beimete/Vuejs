@@ -1249,3 +1249,5 @@
 - 理论上，任何项目都可以使用`MUI`或`Bootstrap`，但是`Mint-UI`只适用于`Vue`项目；
 
 - [MUI官方网页](http://dev.dcloud.net.cn/mui/)
+
+- 注意：MUI不能使用npm下载，需要自己手动从Github上下载压缩包，解压后添加到项目使用；

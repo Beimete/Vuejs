@@ -6,7 +6,7 @@
         <mt-button type="danger" size="normal" icon="more" plain>danger</mt-button>
         <mt-button type="primary" size="small" disabled>primary</mt-button>
 
-        <!-- <mybtn type="primary">12345</mybtn> -->
+        <button type="button" class="mui-btn mui-btn-royal">紫色</button>
 
         <router-link to="/account">Account</router-link>
         <router-link to="/goodslist">GoodsList</router-link>
