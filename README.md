@@ -1059,13 +1059,13 @@
         */
         - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
 
-### webpack配置css-loader、less-loader涣然scss.loader
+### webpack配置css-loader、less-loader或scss.loader
 
 - 在`css`文件夹下分别创建`index.css`,`index.less`,`index.scss`，webpack并不能独立解析，使用loader管理`main.js`文件中的`.css`,`.less`,`.scss`文件；原因和具体步骤在于：
 
                 webpack 默认只能打包处理 JS 类型的文件，无法处理其他的 非JS类型的文件，如果需要处理非JS文件，我们则需要手动安装合适的第三方 loader 加载器：
                 1. 打包处理 css 文件的两个loader插件：npm i style-loader css-loader (postcss-loader 这个是option，可以不装) -D；
-                2. 打开 webpack.config.js 配置文件，在里面新增一个配置节点 module，它是一个对象，对象内部rules 数组属性，其存放了所有第三方文件的匹配与处理规则；
+                2. 打开 webpack.config.js 配置文，在里面新增一个配置节点 module，它是一个对象，对象内部rules 数组属性，其存放了所有第三方文件的匹配与处理规则；
                 3. 打包处理 less 文件，需要导入第三方的loader: npm i less-loader -D；安装完毕提醒require安装一个less：npm i less -D，它是less-loader内部依赖的，我们并不需要定义进module对象下的rules中；
                 4. 打包处理 scss 文件（scss是sass的扩展）需要导入第三方的loader: cnpm i sass-loader -D（确保全局安装了 cnpm；npm install -g cnpm --registry=https://registry.npm.taobao.org ）；安装完毕提醒require安装一个 node-sass：cnpm i node-sass -D（npm 装得慢；
                 5. 根据各种loader加载器的安装提示配置好所需的 node_modules 内包后，最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
