@@ -8,9 +8,15 @@ import './css/app.css'
 
 
 
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
-Vue.use(MintUI)
+// import MintUI from 'mint-ui'
+// import 'mint-ui/lib/style.css'
+// Vue.use(MintUI)
+
+import { Button } from 'mint-ui'
+Vue.component(Button.name, Button)
+
+
+
 
 import app from './App.vue'
 

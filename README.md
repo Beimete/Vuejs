@@ -1239,3 +1239,13 @@
 ## MintUI组件
 
 - [Mint-UI官方文档](http://mint-ui.github.io/#!/zh-cn)
+
+## MUI代码段
+
+- `MUI`不属于`Mint-UI`，它只是开发出来的一套好用的代码片段，里面提供了配套的样式，配套的HTML代码段，类似于`BootStrap`，而`Mint-UI`是真正的组件库，是使用`Vue`技术封装出来的成套的组件，可以无缝地与`Vue`项目进行集成开发；
+
+- 从体验上说，`Mint-UI`更好，这是别人开发好的现成的`Vue`组件；
+
+- 理论上，任何项目都可以使用`MUI`或`Bootstrap`，但是`Mint-UI`只适用于`Vue`项目；
+
+- [MUI官方网页](http://dev.dcloud.net.cn/mui/)
