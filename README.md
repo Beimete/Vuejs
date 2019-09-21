@@ -1251,3 +1251,256 @@
 - [MUI官方网页](http://dev.dcloud.net.cn/mui/)
 
 - 注意：MUI不能使用npm下载，需要自己手动从Github上下载压缩包，解压后添加到项目使用；
+
+## ECMAScript6的Promise对象
+
+- Node封装function的初衷：给定文件路径，返回读取到的内容
+
+        const fs = require('fs')
+        const path = require('path')
+
+        <!-- 下面的代码回调函数callback较为复杂，对初学者很不友好 -->
+        function getFileByPath(fpath, callback){
+                fs.readFile(fpath, 'utf-8', (err, dataStr) => {
+                        if(err) return callback(err, undefined)
+                        callback(null, dataStr)
+                })
+        }
+
+        getFileByPath(path.join(__dirname, './file/1.txt), (err,dataStr)=>{
+             if(err) return console.log(err.message)
+             console.log(dataStr)
+        })
+
+- 优化封装读取文件的初衷代码
+
+        <!-- 下面的代码将双形参的回调函数callback拆分成两个回调函数 -->
+        const fs = require('fs')
+        const path = require('path')
+
+        function getFileByPath(fpath, succCb, errCb){
+                fs.readFile(fpath, 'utf-8', (err, dataStr) => {
+                        if(err) return errCb(err)
+                        succCb(dataStr)
+                })
+        }
+
+        getFileByPath(path.join(__dirname, './file/1.txt), function(data){
+               console.log(data + '-----Successed') 
+        }, function(err){
+                console.log(err.message + '-----Failed')
+        })
+
+- 异步的数据循环读取的`回调地狱`：速度相对并列先后读取数据慢一点，可以保证文件的读取顺序和防止阻塞CPU；
+
+        getFileByPath(path.join(__dirname, './file/1.txt'), function(data){
+                console.log(data)
+
+                getFileByPath(path.join(__dirname, './file/2.txt'), function(data){
+                        console.log(data)
+
+                        getFileByPath(path.join(__dirname, './file/3.txt'), function(data){
+                        console.log(data)
+                        })
+                })
+        })
+
+- EMCAScript 6中的`Promise`对象，可以单纯地解决回调地狱的问题，但并不能减少代码量；它是将多层的嵌套回调改成串联调用；
+
+- Promise()符合首字母大写的即是`构造函数`的特点，可以new Promise()就可以得到它的一个实例；Promise对象身上有两个重要的函数，`resolve`(成功之后执行的回调函数)和`reject`(失败之后执行的回调函数)；
+
+- 在Promise()构造函数`Prototype`属性内部，有一个`.then()`方法；只要是Promise构造函数创建的实例，都可以访问到它；
+
+- 如果Promise()表示一个异步操作，每当我们`new`一个实例，就表示创建一个具体的异步操作；既然它是一个异步操作，其结果只有两种状态：异步执行成功/失败；
+
+- 由于Promise()实例是一个异步操作，所以内部拿到操作的结果后，无法使用`return`把操作的结果返回给调用发起者；这时候，只能使用对应回调函数的形式，把成功或失败的操作结果返回给调用发起者；可以在该Promise实例上，调用.then()方法，预先给这个异步操作指定`成功(resolve)`或`失败(reject)`的回调函数；具体使用代码如下：
+
+        <!-- promise代表形式上的一个异步操作，只知道是异步操作，但不知道具体是读文件还是发起Ajax操作；function内部即是具体的异步操作内容 -->
+        const fs = require('fs')
+
+        <!-- 每当promise被创建，就会立即隐式执行这个异步操作中的代码，这意味着它并不需要往下写更多的函数调用脚本 -->
+        var promise = new Promise(function(){
+                fs.readFile('./files/2.txt', 'utf-8', (err, dataStr) =>{
+                        if(err) throw err
+                        console.log(dataStr)
+                })
+        })
+
+- 在JavaScript中只有function内部的代码才能按需求调用执行，其他的脚本代码是会立即执行的；所以我们需要将上面的promise实例封装到function中，实现`给定文件路径函数一调用即执行一次异步的操作`的功能：
+
+        const fs = require('fs')
+
+        function getFileByPath(fpath){
+              var promise = new Promise(function(resolve, reject){
+                fs.readFile(fpath, 'utf-8', (err, dataStr) =>{
+                        if(err) return reject(err)
+                        resolve(dataStr)
+                })
+
+                return promise 
+        }
+
+        var p = getFileByPath('./files/2.txt');
+        p.then(function(data){
+                console.log(data + '----')
+        }, function(err){
+                console.log(err.message)
+        })
+
+        <!-- p调用函数`getFileByPath`立即返回promise实例给p，执行`p.then()`方法可以将构造函数`Promise()`中两个回调函数具体化，这样callback函数就可以知道成功或失败所对应的执行操作，完成整个异步操作；-->
+
+- 优化成功的代码：
+
+        const fs = require('fs')
+
+        function getFileByPath(fpath){
+                return new Promise(function(resolve, reject){
+                 fs.readFile(fpath, 'utf-8', (err, dataStr) =>{
+                        if(err) return reject(err)
+                        resolve(dataStr)
+                 })
+        }
+
+        getFileByPath('./files/2.txt')
+        .then(function(data){
+                console.log(data + '----')
+        }, function(err){
+                console.log(err.message)
+        })
+
+- 使用Promise解决异步回调地狱，JavaScript代码演示：
+
+        const fs = require('fs')
+
+        function getFileByPath(fpath){
+                return new Promise(function(resolve, reject){
+                 fs.readFile(fpath, 'utf-8', (err, dataStr) =>{
+                        if(err) return reject(err)
+                        resolve(dataStr)
+                 })
+        }
+
+        <!-- .then()必须指定成功的回调函数，失败的回调函数可以省略不传 -->
+
+        <!-- getFileByPath('./files/1.txt')
+        .then(function(data){
+                console.log(data + '----')
+
+                getFileByPath('./files/2.txt')
+                .then(function(data){
+                console.log(data + '----')
+
+                        getFileByPath('./files/3.txt')
+                        .then(function(data){
+                        console.log(data + '----')
+                        })
+                })
+        }) -->
+
+        <!-- 上述代码和异步地狱毫无差别，完全没有体现出Promise的优越性 -->
+
+        <!-- 在上一个`.then()`中返回新的`promise`实例，可以继续执行下一个`.then()`来处理指定顺序的文件 -->
+
+        getFileByPath('./files/1.txt')
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/2.txt')
+        })
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/3.txt')
+        })
+        .then(function(data){
+               console.log(data + '----') 
+        })
+
+- 当第一个.then执行错误的情况呢？
+
+        const fs = require('fs')
+
+        function getFileByPath(fpath){
+                return new Promise(function(resolve, reject){
+                 fs.readFile(fpath, 'utf-8', (err, dataStr) =>{
+                        if(err) return reject(err)
+                        resolve(dataStr)
+                 })
+        }
+
+        getFileByPath('./files/111.txt')
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/2.txt')
+        }, function(err){
+                console.log('这是失败的结果：' + err.message)
+                return getFileByPath('./files/2.txt')
+        })
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/3.txt')
+        })
+        .then(function(data){
+               console.log(data + '----') 
+        })
+
+        console.log('OKOKOK')
+
+        <!-- 脚本执行后，会先在控制台输出`OKOKOK`，然后`throw err`，`promise`异步操作立即会被终止；为了实现忽略前面的异常，则需要我们在该`.then()`函数内部手动地添加被省略掉的失败回调函数，并且在内部`return`新的返回值；有时候的需求恰恰相反，后面的promise执行依赖于前面所执行的结果，如果前面失败了后面就没有继续执行必要，代码片段： -->
+
+        const fs = require('fs')
+
+        function getFileByPath(fpath){
+                return new Promise(function(resolve, reject){
+                 fs.readFile(fpath, 'utf-8', (err, dataStr) =>{
+                        if(err) return reject(err)
+                        resolve(dataStr)
+                 })
+        }
+
+        getFileByPath('./files/1.txt')
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/2222.txt')
+        })
+        .then(function(data){
+                console.log(data + '----')
+
+                return getFileByPath('./files/3.txt')
+        })
+        .then(function(data){
+               console.log(data + '----') 
+        })
+        .catch(fucntion(err){
+                console.log('自定义的异常处理方式：' + err.message)
+        })
+
+        <!-- 次数`catch`的作用是：若前面任何一个`.then()`执行失败，都会立即终止所有的`promise`执行，并且立即将异常`err`抛出 -->
+
+- jQuery中的`Ajax`支持`Promise`功能
+
+        - `npm init -y`初始化node_modules下载环境；
+        - `cnpm i jquery -S`安装jQuery的第三方包到生产环境；
+        - 创建`index.html`在`body`节点下添加：
+        <body>
+        <input type="button" value="获取数据" id="btn">
+        <script src="./node_modules/jquery/dist/jquery.min.js></script>
+
+        <script>
+                $(function(){
+                        $('#btn').on('click', function(){
+                                $ajax({
+                                        url:'./data.json',
+                                        type:'get',
+                                        dataType:'json',
+                                })
+                                .then(function(data){
+
+                                })
+                        })
+                })
+        </script>
+        </body>
