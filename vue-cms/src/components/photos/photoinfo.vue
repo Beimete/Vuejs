@@ -100,9 +100,27 @@ export default {
 
     .photo-thumbnails{
         padding:0 5px;
-        img{
-            margin: 10px;
-            box-shadow: 0 0 8px #999;
-        }
+        padding: 10px 0;
+            .my-gallery {
+                display: flex;
+                flex-wrap: wrap;
+                figure {
+                    width: 33.33333%;
+                    margin: 0;
+                    padding: 0 10px;
+                    img {
+                        width: 100%;
+                        box-shadow: 0 0 8px 4px #a1a499;
+                        border-radius: 5px;
+                    }
+                }
+            }
+            .tip {
+                p {
+                    font-size: 16px;
+                    text-align: center;
+                }
+                
+            }
     }
 </style>

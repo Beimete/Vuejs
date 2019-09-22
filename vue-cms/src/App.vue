@@ -1,7 +1,12 @@
 <template>
     <div class="app-container">
         <!-- 顶部 Header 区域 -->
-        <mt-header fixed title="白马板砖工·Vue初挑战"></mt-header>
+		
+        <mt-header fixed title="白马板砖工·Vue初挑战">
+			<router-link to="" slot="left" v-show="isShow">
+        		<mt-button icon="back" @click="back">返回</mt-button>
+      		</router-link>
+		</mt-header>
 
         <!-- 中部 router-view 区域 -->
         <transition>
@@ -31,7 +36,27 @@
 </template>
 
 <script>
-
+	export default {
+		data(){
+			return {
+				isShow: false
+			}
+		},
+		methods:{
+			back(){
+				this.$router.go(-1);
+			}
+		},
+		watch:{
+			$route(now, old){
+				if(now.path == '/home'){
+					this.isShow = false;
+				}else{
+					this.isShow = true;
+				}
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

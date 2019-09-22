@@ -1,10 +1,6 @@
 <template>
     <div>
-        <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="item in lunboList" :key="item.id">
-            <img :src="item.img" alt="">
-        </mt-swipe-item>
-        </mt-swipe>
+        <swiper :lunbo="lunboList"></swiper>
 
         <ul class="mui-table-view mui-grid-view mui-grid-9">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -18,10 +14,13 @@
                     <span class="mui-icon mui-icon-camera"></span>
                     <div class="mui-media-body">图片分享</div>
                     </router-link>
-                </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+                <router-link to="/home/goodslist">
                     <span class="mui-icon mui-icon-extra mui-icon-extra-cart"></span>
-                    <div class="mui-media-body">商品购买</div></a></li>
+                    <div class="mui-media-body">商品购买</div>
+                </router-link>
+            </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
                     <span class="mui-icon mui-icon-chatbubble-filled"></span>
                     <div class="mui-media-body">留言反馈</div></a></li>
@@ -37,8 +36,9 @@
 
 <script>
 import {Toast} from 'mint-ui'
+import swiper from '../subcomponents/swiper.vue'
 
-    export default{
+    export default {
         data(){
             return {
                lunboList:[] 
@@ -58,32 +58,15 @@ import {Toast} from 'mint-ui'
                         }
                     })
             }
+        },
+        components:{
+            "swiper":swiper
         }
     }
 </script>
 
 <<style lang="scss" scoped>
-    .mint-swipe{
-        height:200px;
-
-        .mint-swipe-item{
-           &:nth-child(1){
-               background-color:red; 
-           };
-           &:nth-child(2){
-               background-color:lightgreen; 
-           };
-           &:nth-child(3){
-               background-color:yellow; 
-           };
-           
-           img{
-               width: 100%;
-               height: 100%;
-           }
-        }
-    }
-
+    
     .mui-grid-view.mui-grid-9{
         background-color:#fff;
         border:none;
