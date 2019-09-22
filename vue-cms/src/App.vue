@@ -2,7 +2,7 @@
     <div class="app-container">
         <!-- 顶部 Header 区域 -->
 		
-        <mt-header fixed title="白马板砖工·Vue初挑战">
+        <mt-header fixed title="白板搬砖工·Vue初挑战">
 			<router-link to="" slot="left" v-show="isShow">
         		<mt-button icon="back" @click="back">返回</mt-button>
       		</router-link>
@@ -24,7 +24,9 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link class="mui-tab-item-llb" to="/shopcar">
-				<span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">0</span></span>
+				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
+					<span class="mui-badge" id="badge">0</span>
+				</span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link class="mui-tab-item-llb" to="/search">
