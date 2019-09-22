@@ -3,7 +3,7 @@
         <!-- 顶部 Header 区域 -->
 		
         <mt-header fixed title="白板搬砖工·Vue初挑战">
-			<router-link to="" slot="left" v-show="isShow">
+			<router-link to="/" slot="left" v-show="isShow">
         		<mt-button icon="back" @click="back">返回</mt-button>
       		</router-link>
 		</mt-header>
@@ -23,9 +23,9 @@
 				<span class="mui-icon mui-icon-contact"></span>
 				<span class="mui-tab-label">会员</span>
 			</router-link>
-			<router-link class="mui-tab-item-llb" to="/shopcar">
+			<router-link class="mui-tab-item-llb" to="/shopcart">
 				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-					<span class="mui-badge" id="badge">0</span>
+					<span class="mui-badge" id="badge">{{ this.$store.getters.getAllCount }}</span>
 				</span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
@@ -43,6 +43,9 @@
 			return {
 				isShow: false
 			}
+		},
+		created(){
+			this.isShow = this.$route.path === '/home'? false : true;
 		},
 		methods:{
 			back(){

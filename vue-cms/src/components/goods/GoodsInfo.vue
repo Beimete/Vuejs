@@ -103,6 +103,15 @@ export default {
         },
         addToShopCar(){
             this.ballFlag = !this.ballFlag;
+
+            var GoodsInfo = {
+                id: this.goodsId, 
+                count: this.selectedCount,
+                price: this.goodsInfo.sell_price,
+                selected: true
+            };
+
+            this.$store.commit('addToCart', GoodsInfo)
         },
         beforeEnter(el){
             el.style.transform = "translate(0, 0)";

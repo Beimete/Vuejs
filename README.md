@@ -1504,3 +1504,60 @@
                 })
         </script>
         </body>
+
+## Vuex
+
+- `Vuex` 是一个专为`Vue.js`应用程序开发的状态管理模式；
+
+- 它可以被理解成公共数据管理工具；将一些所有组件共享的数据保存到vuex中，方便整个项目中的任何组件直接获取或进行修改；
+
+- [官方网站](https://vuex.vuejs.org/zh/guide/)
+
+- `Vuex`是为了保存组件之间共享数据而诞生的。如果同级组件间有需要共享的数据，可以直接挂载到`Vuex`中，而不必使用`vue-bus`进行传值，同时也省去了父子组件间的传值；如果组件的数据不需要共享，此时就不需要挂载到`Vuex`中；
+
+- 只有共享的数据，才有权利放到`Vuex`内部；组件内部私有的数据，只需放到组件的`data`内部；而`props`内部用于存放父组件向子组件传递的数据；
+
+- `Vuex`是一个全局的共享数据存储区域，相当于一个数据仓库。
+
+- 使用步骤与注意事项：
+
+        - `cnpm install vuex --save`
+
+        import Vuex from 'vuex'
+        Vue.use(Vuex)
+        var store = new Vuex.Store({
+        <!-- `state`类似于`data` -->
+                state:{
+                        count:0
+                },
+        <!-- `mutations`类似于`methods` -->
+        <!-- `mutations`最多支持`两个`参数，可以传`对象`嘛! -->
+                mutations:{
+                        increment(state, step{
+                                state.count += step
+                        }
+                },
+        <!-- `getters`只负责对外提供数据，不能修改数据 -->
+                getters:{
+                        optCount: function(state){
+                                return '最新的count值是：' + state.count
+                        }
+                }
+        })
+
+        <!-- `Vuex`实例`store`挂载到vm实例 -->
+        const vm new Vue({
+                el: "#app",
+                store: store,
+        })
+
+        <!-- 组件中访问获取`Vuex`数据的方式 -->
+        this.$store.state.count
+
+        <!-- 组件更改`Vuex`数据只能调用`mutations`提供的方法，并不推荐在各自的`methods`中私自操作；反之`Vuex`中数据发生紊乱，不能快速定位错误的原因。 -->
+
+        <!-- 类似子组件this.$emit('父组件function_name') -->
+        this.$store.commit.('increment', step)
+
+        <!-- 使用`getters`访问获取`Vuex`中的数据，`getters`中的方法和`filter`类似，只是对原数据（不变）做包装，提供给调用者；也和`computed`类似，只要`state`中数据发生了变化，只要`getters`引用了这个数据，就会立即触发重新求值。 -->
+        this.$store.getters.optCount
