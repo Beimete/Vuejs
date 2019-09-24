@@ -1,6 +1,6 @@
-# Vue.js
+# 1. Vue.js
 
-## 简介
+## 1.1. 简介
 
 - `Vue`是目前最火的一个框架，`Vue.js`是前端的主流框架之一，和`Angular.js`、`React.js`并称前端三大主流框架；
 
@@ -8,13 +8,13 @@
 
 - 提高开发效率的发展历程：原生JS->jQuery之类的类库->前端模板引擎->Angular.js/Vue.js。在Vue中，一个核心的概念，就是让用户不再操作DOM元素，解放用户的双手，让程序员可以有更多的时间关注业务逻辑；双向数据绑定的概念；
 
-## 框架和的区别
+## 1.2. 框架和的区别
 
 - `Frame框架`：是一套完整的解决方案；对项目的侵入性较大，项目如果需要更换框架，则需要重新架构整个项目。如node中的express；
 
 - `Library库(插件)`：提供某一个小功能，对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其他库实现需求。
 
-## Node中MVC与前端中MVVM的区别
+## 1.3. Node中MVC与前端中MVVM的区别
 
 - `MVC`是后端的分层开发概念。`Model`-`View`-`Controller`
   
@@ -35,11 +35,11 @@
 
 - 前端页面使用MVVM的思想，主要是为了开发更加方便，VM提供了数据双向绑定。
 
-## Vue指令
+## 1.4. Vue指令
 
 - `v-cloak`,`v-text`,`v-html`,`v-bind`,`v-on` 跑马灯效果
 
-### 事件修饰符
+### 1.4.1. 事件修饰符
 
 - `.stop`阻止冒泡
 
@@ -51,7 +51,7 @@
 
 - `.once`事件只触发一次
 
-### class样式
+### 1.4.2. class样式
 
 - 1.数组
 
@@ -69,7 +69,7 @@
 
         <h1 :class="{red:true, italic:true, active:true, thin:true}">这是一个邪恶的H1</h1>
 
-### in-line样式
+### 1.4.3. in-line样式
 
 - 1.直接在元素上通过`:style`的形式书写样式对象
 
@@ -94,7 +94,7 @@
         在元素中，通过属性绑定的形式，将样式对象应用到元素中：
         <h1 :style="[h1StyleObj, h1StyleObj2]">这是一个善良的H1</h1>
 
-## `v-for`和`v-key`属性
+## 1.5. `v-for`和`v-key`属性
 
 - 1.迭代数组
 
@@ -116,11 +116,11 @@
 
 - 为了给Vue一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每个项提供一个唯一的key属性
 
-## `v-if`和`v-show`属性
+## 1.6. `v-if`和`v-show`属性
 
 - 一般来说，`v-if`有更高的切换消耗而`v-show`有更高的初始渲染消耗。因此，如果需要频繁切换`v-show`较好；如果在运行时条件不大可能改变`v-if`较好。
 
-## 过滤器
+## 1.7. 过滤器
 
 - 概念：`Vue.js`允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方：`mustache`插值和`v-bind`表达式。过滤器应该被添加在`JavaScript`表示式的尾部，由“管道 | ”符表示。`Vue.js`可以同时调用多个`filter`，从左到右依次过滤后再输出。
 
@@ -164,7 +164,7 @@
                         }
                 }
 
-## 键盘修饰符
+## 1.8. 键盘修饰符
 
 - [JavaScript中键盘事件对应的键码](https://www.cnblogs.com/wuhua1/p/6686237.html)
 
@@ -182,7 +182,7 @@
 
                 <input type="text" v-model="name" @keyup.f2="add">
 
-## 自定义指令
+## 1.9. 自定义指令
 
 - 1.自定义全局指令
 
@@ -235,7 +235,7 @@
 
 - [官方文档](https://cn.vuejs.org/v2/guide/custom-directive.html)
 
-## `Vue`实例的生命周期
+## 1.10. `Vue`实例的生命周期
 
 - 什么是生命周期：从Vue实例创建，运行，到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期。
 
@@ -255,7 +255,7 @@
                 - `beforeDestroy`：实例销毁之前调用，在这一步，实例仍然完全可用；
                 - `destroyed`：Vue实例销毁后调用，调用后，Vue实例指示的所有东西都会解除绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 
-## `vue-resource`实现`get`,`post`,`jsonp`请求
+## 1.11. `vue-resource`实现`get`,`post`,`jsonp`请求
 
 [vue-resource官网](https://github.com/pagekit/vue-resource)
 
@@ -299,11 +299,11 @@
 
 - 5.参见`Node_server`文件夹中的案例
 
-## `Vue`动画
+## 1.12. `Vue`动画
 
 - 为什么要有动画：动画能够提高用户的体验，帮助用户更好地理解页面中的功能
 
-### 使用过渡类名
+### 1.12.1. 使用过渡类名
 
 - 1.HTML结构
 
@@ -339,7 +339,7 @@
             <div class="ball" v-show="flag"></div>
         </transition>
 
-### 使用第三方类
+### 1.12.2. 使用第三方类
 
 - `Animate`实例
 
@@ -348,7 +348,7 @@
             <h3 v-if="flag" class="animated">这是一个H3</h3>
         </transition>
 
-### 列表动画
+### 1.12.3. 列表动画
 
 - `transition-group`实例
 
@@ -364,11 +364,11 @@
                 </li>
         </transition-group>
 
-## `Vue`组件
+## 1.13. `Vue`组件
 
 - 什么是组件：组件的出现，就是为了拆分`Vue实`例的代码量，能够让我们以不同的组件，来划分不同的功能模块。我们需要什么样的功能，就可以去调用对应的组件即可。
 
-### 组件化和模块化的不同
+### 1.13.1. 组件化和模块化的不同
   
 - 模块化：从代码逻辑的角度进行划分，方便后台代码的分层开发，保证每个功能模块的智能单一；如:Nodejs
 - 组件化：从UI界面的角度进行划分，前端的组件化，方便UI组件的重用；如:Vue
@@ -400,7 +400,7 @@
 
 - 注意：组件中的DOM结构，有且只有唯一的根元素(Root Element)来进行包裹！
 
-### 私有组件的定义方
+### 1.13.2. 私有组件的定义方
 
         <template id="tmpl2">
         <h1>这是私有的LOGIN组件</h1>
@@ -412,7 +412,7 @@
                 }
             }
 
-### 组件中的`data`与`methods`
+### 1.13.3. 组件中的`data`与`methods`
 
 - 案例
 
@@ -454,7 +454,7 @@
         })
         </script>
 
-### `component`的切换
+### 1.13.4. `component`的切换
 
 - v-if/else方式实现两个组件间的切换
 
@@ -488,7 +488,7 @@
         </transition>
         </div>
 
-### 父组件向子组件传值
+### 1.13.5. 父组件向子组件传值
 
 - 1.组件实例定义方式，注意：一定要使用`props`属性定义父组件传递过来的数据
 
@@ -514,7 +514,7 @@
                 <son :finfo="msg"></son>
         </div>
 
-### 子组件向父组件传值
+### 1.13.6. 子组件向父组件传值
 
 - 1.原理：父组件将方法的引用，传递到子组件内部，子组件在内部调用父组件传递过来的方法，同时把要发送给父组件的数据，在调用方法的时候当做参数传递过去；
 
@@ -561,7 +561,7 @@
         })
         </script>
 
-### 组件中`data`和`prop`的区别
+### 1.13.7. 组件中`data`和`prop`的区别
 
          var vm = new Vue({
             el:"#app",
@@ -593,11 +593,11 @@
             }
         })
 
-### 评论列表案例
+### 1.13.8. 评论列表案例
 
 - 目标：主要练习父子组件之间的传值
 
-### 使用 `this.$refs`来获取元素和组件
+### 1.13.9. 使用 `this.$refs`来获取元素和组件
 
         <div id="app">
           <div>
@@ -636,7 +636,7 @@
         });
         </script>
 
-## 路由`router`
+## 1.14. 路由`router`
 
 - 后端路由：对于普通网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；该对应关系就是 路由（Router）
 
@@ -646,7 +646,7 @@
 
 - [参考网站](https://www.cnblogs.com/joyho/articles/4430148.html)
 
-### `vue-router`的基本使用
+### 1.14.1. `vue-router`的基本使用
 
 - 1.导入vue-router组件类库
 
@@ -694,16 +694,16 @@
             router:routerObj,
         })
 
-### 使用`tag`属性指定`router-link`渲染的标签类型
+### 1.14.2. 使用`tag`属性指定`router-link`渲染的标签类型
 
         <router-link to="/login" tag="span">登录</router-link>
         <router-link to="/register">注册</router-link>
 
-### 设置路由重定向`redirect`
+### 1.14.3. 设置路由重定向`redirect`
 
         {path:'/', redirect:'/login'}
 
-### 设置路由高亮
+### 1.14.4. 设置路由高亮
 
         .router-link-active, .myactive{
             color:red;
@@ -717,7 +717,7 @@
         <!-- 不使用router-link-active，自定义class名称，实现 路由高亮 -->
         linkActiveClass:'myactive';
 
-### 设置路由切换动效
+### 1.14.5. 设置路由切换动效
 
         .v-enter,
         .v-leave-to{
@@ -734,7 +734,7 @@
             <router-view></router-view>
         </transition>
 
-### 在路由规则中定义参数
+### 1.14.6. 在路由规则中定义参数
 
 - 在规则中定义参数
 
@@ -752,7 +752,7 @@
                 template:'<h1>注册组件 --- {{this.$route.params.id}}</h1>'
         })
 
-### 使用`children`属性实现路由嵌套
+### 1.14.7. 使用`children`属性实现路由嵌套
 
          var router = new VueRouter({
             routes:[
@@ -767,7 +767,7 @@
             ]
         })
 
-### 命名视图实现经典布局
+### 1.14.8. 命名视图实现经典布局
 
         <div id="app">
         <router-view></router-view>
@@ -787,7 +787,7 @@
            ]
        });
 
-### 监听名称案例
+### 1.14.9. 监听名称案例
 
 - `methods`方式
 
@@ -813,7 +813,7 @@
                     return this.firstname + '-'+ this.middlename + '-' + this.lastname
         }
 
-### `watch`、`computed`、`methods`之间的对比
+### 1.14.10. `watch`、`computed`、`methods`之间的对比
 
 - `computed`属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算，主要当做属性来使用；
 
@@ -821,7 +821,7 @@
   
 - `watch`一个对象，键是需要观察的表达式，值是对应的回调函数，主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作，可以看作是`computed`和`methods`的结合体。
 
-## `nrm`的安装使用
+## 1.15. `nrm`的安装使用
 
 - [NPM镜像源地址](https://registry.npmjs.org/)
 
@@ -837,11 +837,11 @@
 
 - 注意：`nrm`只是单纯地提供了几个常用的下载包的`URL`地址，并能够让我们在这几个地址之间，很方便地进行切换；但是我们每次安装包的时候，使用的装包工具，都是`npm`，`nrm`只是改变了`npm`的装包地址；
 
-### 相关文件
+### 1.15.1. 相关文件
 
 - [URL中的hash(#)](http://www.cnblogs.com/joyho/articles/4430148.html)
 
-### 常用的`npm`命令行总结
+### 1.15.2. 常用的`npm`命令行总结
 
 - 它是世界上最大的软件注册表，每星期大约有`30`亿次的下载量，包含超过`600000`个包`package`（代码模块）。来自各大洲的开源软件开发者使用`npm`互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
 
@@ -879,7 +879,7 @@
                 - `npm uninstall <package> --save` 删除模块，同时删除模块留在package.json中dependencies下的对应信息
                 - `npm uninstall <package> --save-dev` 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
 
-## Webpack
+## 1.16. Webpack
 
 - 在网页中会引用哪些常见的静态资源？
 
@@ -908,7 +908,7 @@
 
         - webpack是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具；
 
-### 如何完美实现上述的两种解决方案
+### 1.16.1. 如何完美实现上述的两种解决方案
 
 - 1.使用`Gulp`，是基于`task`任务的；
 
@@ -920,18 +920,18 @@
 
 - [Webpack官网](http://webpack.github.io/)
 
-### webpack 3.x 安装的两种方式
+### 1.16.2. webpack 3.x 安装的两种方式
 
 - 1.运行`npm i webpack -g`全局安装webpack，这样就能在全局使用webpack的命令；
 
 - 2.在项目根目录中运行`npm i webpack --save-dev`安装到项目依赖中
 
-### webpack 4.x安装方式
+### 1.16.3. webpack 4.x安装方式
 
-- `webpack 4.x `将`webpack-cli`分离出去了，需要二次配置安装，`webpack3.x`的显著区别
+- `webpack 4.x`将`webpack-cli`分离出去了，需要二次配置安装，`webpack3.x`的显著区别
 - [参考博客](https://www.jianshu.com/p/c094e42b0bc2)
 
-### 初步使用`webpack`打包构建列表隔行变色案例
+### 1.16.4. 初步使用`webpack`打包构建列表隔行变色案例
 
         <!-- 导入jQuery类库 -->
         import $ from 'jquery'
@@ -940,7 +940,7 @@
         <!-- 设置奇数行背景色 -->
         $('#list li:odd').css('backgroundColor', 'pink');
 
-### `webpack 4.x`基本配置总结
+### 1.16.5. `webpack 4.x`基本配置总结
 
 - 新建一个本地磁盘上的项目根目录文件夹 `WebpackStudy`；
 
@@ -1045,7 +1045,7 @@
         */
         - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
 
-### `webpack`配置`css-loader`、`less-loader`或`scss.loader`
+### 1.16.6. `webpack`配置`css-loader`、`less-loader`或`scss.loader`
 
 - 在`css`文件夹下分别创建`index.css`,`index.less`,`index.scss`，webpack并不能独立解析，使用loader管理`main.js`文件中的`.css`,`.less`,`.scss`文件；原因和具体步骤在于：
 
@@ -1076,7 +1076,7 @@
                    3. 在调用loader的时候，是从后往前调用的；
                    4. 当最后的一个loader调用完毕，会把处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js 中去；
 
-### `webpack`中配置`url-loader`
+### 1.16.7. `webpack`中配置`url-loader`
 
 - 默认情况下，webpack无法处理css文件中的url地址，不管是 图片 还是 字体库；
 
@@ -1096,7 +1096,7 @@
 
 - `cnpm i bootstrap -S`本地生成环境下安装`bootstrap`框架，并在`index.html`页面中引入`<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>`，然后在`webpack.config.js`中配置解析字体文件的loader：`{test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}`，最后在控制台运行`npm run dev`可以在页面中看到heart。
 
-### `webpack`中配置`babel-loader`
+### 1.16.8. `webpack`中配置`babel-loader`
 
 - ES6中面向对象高级class语句的解析，`webpack`默认只能处理一部分ES6新语法，必须安装配置`Babel`才能正常处理一些更高级的ES6或者ES7语法；当第三方loader把高级原发转为低级语法之后，会把结果较为webpack去打包到`bundle.js`中；
 
@@ -1122,13 +1122,13 @@
         - `babel-preset-env babel-preset-stage-0`是babel语法字典，提供了具体语法之间的对应关系；
         - `babel-preset-env`是新的ES语法插件，之它出现之前安装的语法包是`babel-preset-es2015`，`babel-preset-env`包含所有与ES***相关的语法；
 
-## Vue中渲染组件的`render`函数
+## 1.17. Vue中渲染组件的`render`函数
 
 - 使用components渲染组件之后替换页面中相应位置处的内容，相对于常量表达式；
 
 - 使用render中createElements渲染组件会把vm挂载对象vm中所有内容均清空，只保留组件并放到指定位置，相当于v-text；一个app中只能渲染一个component；
 
-### `webpack`构建的项目中进行Vue开发一般步骤
+### 1.17.1. `webpack`构建的项目中进行Vue开发一般步骤
 
 - `webpack`中使用`import Vue from 'vue'`导入的Vue构造函数功能不完整，只提供了阉割版的`runtime-only`的方式，并没有提供像网页中以`script`引入的完整版本功能；
 
@@ -1173,7 +1173,7 @@
                         ]
                 }
 
-### `export default`和`export`的使用
+### 1.17.2. `export default`和`export`的使用
 
 - 和`Node`类似，在一个模块中，ES6可以同时使用`export default`和`export`向外暴露成员；
 
@@ -1193,7 +1193,7 @@
 
 - 注意：使用`export`导出的成员，必须严格按照导出时候的名称，来使用`{}`接收；但是，如果想换个名称来接收，可以使用`as`取别名，再进行二次使用；
 
-### `webpack`使用`vue-router`
+### 1.17.3. `webpack`使用`vue-router`
 
 - 1.导入`vue-router`包
 
@@ -1216,17 +1216,17 @@
 
 - 子路由的嵌套语法没有什么特别需要注意的，子路由的`<router-view></router-view>`和`<router-link></router-link>`记得放到对应的父路由内部；
 
-### scoped属性选择器的实现原理
+### 1.17.4. scoped属性选择器的实现原理
 
 - 普通的style标签只支持普通的样式，若想启动scss或less需要为style元素设置lang属性；只要style标签是在.vue组件中定义的，推荐给style开启scoped属性，这么做样式将局部而不是不会全局适用；
 
 - 添加`scoped`后，会在`div`的属性内部追加类似于`data-v-53d445f4`，通过css的属性选择器实现效果控制的；
   
-## MintUI组件
+## 1.18. MintUI组件
 
 - [Mint-UI官方文档](http://mint-ui.github.io/#!/zh-cn)
 
-## MUI代码段
+## 1.19. MUI代码段
 
 - `MUI`不属于`Mint-UI`，它只是开发出来的一套好用的代码片段，里面提供了配套的样式，配套的HTML代码段，并不涉及技术的捆绑，类似于`BootStrap`，而`Mint-UI`是真正的组件库，是使用`Vue`技术封装出来的成套的组件，可以无缝地与`Vue`项目进行集成开发；
 
@@ -1238,7 +1238,7 @@
 
 - 注意：MUI不能使用npm下载，需要自己手动从Github上下载压缩包，解压后添加到项目使用；
 
-## ECMAScript6的Promise对象
+## 1.20. ECMAScript6的Promise对象
 
 - Node封装function的初衷：给定文件路径，返回读取到的内容
 
@@ -1491,7 +1491,7 @@
         </script>
         </body>
 
-## `Vuex`
+## 1.21. `Vuex`
 
 - `Vuex` 是一个专为`Vue.js`应用程序开发的状态管理模式；
 
