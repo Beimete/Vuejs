@@ -2,68 +2,54 @@
 
 ## 简介
 
-- Vue.js是目前最火的一个框架，React是最流行的一个框架。React除了开发网站，还可以开发手机App；Vue语法也是可以进行手机App开发的，需要借助于Weex。
+- `Vue`是目前最火的一个框架，`Vue.js`是前端的主流框架之一，和`Angular.js`、`React.js`并称前端三大主流框架；
 
-- Vue.js是前端的主流框架之一，和Angular.js、React.js并称前端三大主流框架。
+- Vue.js是一套构建用户界面的框架，只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。Vue有配套的第三方类库，可以整合起来做大型项目的开发。前端开发的主要工作：负责MVC中的V这一层，即与用户界面打交道；
 
-- Vue.js是一套构建用户界面的框架，只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。Vue有配套的第三方类库，可以整合起来做大型项目的开发。
-
-- 前端开发的主要工作：负责MVC中的V这一层，即与用户界面打交道。
-
-## 前端流行框架
-
-- 企业为了提高开发效率：在企业中，时间就是效率，效率就是金钱。增强自己就业时的竞争力：人无我有，人有我优。
-
-- 提高开发效率的发展历程：原生JS->jQuery之类的类库->前端模板引擎->Angular.js/Vue.js。在Vue中，一个核心的概念，就是让用户不再操作DOM元素，解放用户的双手，让程序员可以有更多的时间关注业务逻辑；双向数据绑定的概念。
+- 提高开发效率的发展历程：原生JS->jQuery之类的类库->前端模板引擎->Angular.js/Vue.js。在Vue中，一个核心的概念，就是让用户不再操作DOM元素，解放用户的双手，让程序员可以有更多的时间关注业务逻辑；双向数据绑定的概念；
 
 ## 框架和的区别
 
-- Frame框架：是一套完整的解决方案；对项目的侵入性较大，项目如果需要更换框架，则需要重新架构整个项目。如node中的express。
+- `Frame框架`：是一套完整的解决方案；对项目的侵入性较大，项目如果需要更换框架，则需要重新架构整个项目。如node中的express；
 
-- Library库(插件)：提供某一个小功能，对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其他库实现需求。如从jQuery切换到Zepto；从EJS切换到art-template。
+- `Library库(插件)`：提供某一个小功能，对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其他库实现需求。
 
 ## Node中MVC与前端中MVVM的区别
 
-- MVC是后端的分层开发概念。Model-View-Controller?
+- `MVC`是后端的分层开发概念。`Model`-`View`-`Controller`
   
-    app.js：项目的入口模块，一切的请求，都要先进入这里进行请求。注意app.js并没有路由分发的功能，需要调用router.js模块进行路由的分发处理。-->
-    router.js：这是路由分发处理模块[为了保证路由模块的职能单一，router.js只负责分发路由，不负责业务逻辑的处理。]如果涉及到了业务逻辑处理操作，router.js就无能为力，只能调用Controller模块进行业务逻辑处理。-->
-    Controller：这是业务逻辑处理层，在这个模块中封装了一些具体的业务逻辑处理的逻辑代码，但是为了保证职能单一，此模块只负责处理业务，不负责处理数据的CRUD。如果涉及到了数据的CRUD，需要调用Model层。-->
-    Model：职能单一，只负责操作数据库，执行对应的sql语句，进行数据的Create,Read,Update,Delete。
+    `app.js`：项目的入口模块，一切的请求，都要先进入这里进行请求。注意app.js并没有路由分发的功能，需要调用`router.js`模块进行路由的分发处理；-->
+    router.js：这是路由分发处理模块为了保证路由模块的职能单一，router.js只负责分发路由，不负责业务逻辑的处理如果涉及到了业务逻辑处理操作，router.js就无能为力，只能调用Controller模块进行业务逻辑处理；-->
+    `Controller`：这是业务逻辑处理层，在这个模块中封装了一些具体的业务逻辑处理的逻辑代码，但是为了保证职能单一，此模块只负责处理业务，不负责处理数据的`CRUD`。如果涉及到了数据的CRUD，需要调用Model层；-->
+    Model：职能单一，只负责操作数据库，执行对应的sql语句，进行数据的Create,Read,Update,Delete；
 
-    Model模型层：职能单一，只负责操作数据库，执行对应的sql语句，进行数据的Create,Read,Update,Delete。
+    `Model`模型层：职能单一，只负责操作数据库，执行对应的sql语句，进行数据的Create,Read,Update,Delete；
     View视图层：每当用户操作了界面，如果需要进行业务的处理，都会通过网络请求，去请求后端的服务器。此时，我们的请求就会被后端的app.js监听到，即前端页面层。
-    Controller层：router.js+Controller。
+    Controller层：router.js+Controller；
 
-- MVVM是前端视图层的分层开发思想，主要把每个页面分为M,V和VM。其中VM是MVVM思想的核心，因为VM是M和V之间的调度者。
+- `MVVM`是前端视图层的分层开发思想，主要把每个页面分为M,V和VM。其中VM是MVVM思想的核心，因为VM是M和V之间的调度者。
 
-    M：Model,它保存的是每个页面单独的数据，如数据数据。
-    VM：ViewModel,调度者，分隔了M和V。当V层想要获取后保存数据的时候，都要由VM做中间的处理
-    V：View,每个页面中的HTML结构。
+    M：`Model`,它保存的是每个页面单独的数据，如数据数据。
+    VM：`ViewModel`,调度者，分隔了M和V。当V层想要获取后保存数据的时候，都要由VM做中间的处理
+    V：`View`,每个页面中的HTML结构。
 
 - 前端页面使用MVVM的思想，主要是为了开发更加方便，VM提供了数据双向绑定。
 
-## Vue.js基本代码和MVVM的对应关系
-
 ## Vue指令
 
-- v-cloak,v-text,v-html,v-bind,v-on 跑马灯效果
+- `v-cloak`,`v-text`,`v-html`,`v-bind`,`v-on` 跑马灯效果
 
-## 事件修饰符
+### 事件修饰符
 
-- .stop 阻止冒泡
+- `.stop`阻止冒泡
 
-- .prevent 阻止默认事件
+- `.prevent`阻止默认事件
 
-- .capture 添加事件侦听器时使用时间的捕获模式
+- `.capture`添加事件侦听器时使用时间的捕获模式
 
-- .self 只当时间在该元素本身 比如不是子元素 触发时触发回调
+- `.self`只当时间在该元素本身 比如不是子元素 触发时触发回调
 
-- .once 事件只触发一次
-
-## v-model与双向数据绑定(唯一)
-
-## Vue中使用样式
+- `.once`事件只触发一次
 
 ### class样式
 
@@ -85,7 +71,7 @@
 
 ### in-line样式
 
-- 1.直接在元素上通过:style的形式书写样式对象
+- 1.直接在元素上通过`:style`的形式书写样式对象
 
         <h1 :style="{color:'red', 'font-size':'40px'}">这是一个善良的H1</h1>
 
@@ -108,7 +94,7 @@
         在元素中，通过属性绑定的形式，将样式对象应用到元素中：
         <h1 :style="[h1StyleObj, h1StyleObj2]">这是一个善良的H1</h1>
 
-## v-for和v-key属性
+## `v-for`和`v-key`属性
 
 - 1.迭代数组
 
@@ -124,19 +110,19 @@
 - 3.迭代数字
 
         <p v-for="i in 10">这是第{{i}}个p标签</p>
-        2.2.0+的版本中 当在组件中使用 v-for 时 key现在是必须的。
+        2.2.0+的版本中 当在`components`中使用`v-for`时`key`现在是必须的。
 
-- 当Vue.js用v-for正在更新已渲染的元素列表时，它默认用"就地复用"策略。如果数据项的顺序被改变，Vue将不是移动DOM元素来匹配数据项的顺序，而是简单复用此处的每个元素，并且确保它在特定元素下显示已被渲染过的每个元素。
+- 当`Vue.js`用`v-for`正在更新已渲染的元素列表时，它默认用"就地复用"策略。如果数据项的顺序被改变，`Vue`将不是移动`DOM`元素来匹配数据项的顺序，而是简单复用此处的每个元素，并且确保它在特定元素下显示已被渲染过的每个元素。
 
 - 为了给Vue一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每个项提供一个唯一的key属性
 
-## v-if和v-show属性
+## `v-if`和`v-show`属性
 
-- 一般来说，v-if有更高的切换消耗而v-show有更高的初始渲染消耗。因此，如果需要频繁切换v-show较好；如果在运行时条件不大可能改变v-if较好。
+- 一般来说，`v-if`有更高的切换消耗而`v-show`有更高的初始渲染消耗。因此，如果需要频繁切换`v-show`较好；如果在运行时条件不大可能改变`v-if`较好。
 
 ## 过滤器
 
-- 概念：Vue.js允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方：mustache插值和v-bind表达式。过滤器应该被添加在 JavaScript 表示式的尾部，由“管道 | ”符表示。Vue.js可以同时调用多个filter，从左到右依次过滤后再输出。
+- 概念：`Vue.js`允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方：`mustache`插值和`v-bind`表达式。过滤器应该被添加在`JavaScript`表示式的尾部，由“管道 | ”符表示。`Vue.js`可以同时调用多个`filter`，从左到右依次过滤后再输出。
 
 - 1.HTML元素：
 
@@ -180,7 +166,7 @@
 
 ## 键盘修饰符
 
-- [JavaScript中键盘事件对应的键码]:https://www.cnblogs.com/wuhua1/p/6686237.html
+- [JavaScript中键盘事件对应的键码](https://www.cnblogs.com/wuhua1/p/6686237.html)
 
 - 1.x中自定义键盘修饰符
 
@@ -200,7 +186,7 @@
 
 - 1.自定义全局指令
 
-        <!-- 自定义全局指令 v-focus，为绑定的元素自动获取焦点 -->
+        <!-- 自定义全局指令`v-focus`，为绑定的元素自动获取焦点 -->
         Vue.directive('focus', {
                 <!-- 每个函数第一个参数均为 el，表示被绑定了指令的那个元素,这个el参数是一个原生的JavaScript对象，即DOM -->
 
@@ -216,7 +202,7 @@
 
 - 2.自定义局部指令
 
-        <!-- 自定义局部指令 v-color 和 v-fontweight，为绑定的元素设置指定的字体粗细 -->
+        <!-- 自定义局部指令`v-color`和`v-fontweight`，为绑定的元素设置指定的字体粗细 -->
         directives: {
                 'color': {
                         bind: function(el){
@@ -233,7 +219,7 @@
 
 - 3.函数简写
 
-        <!-- 很多时候，可能想在 bind 和 update 时触发相同行为，而不关心其他钩子-->
+        <!-- 很多时候，可能想在`bind`和`update`时触发相同行为，而不关心其他钩子-->
 
         <!-- 全局指令形式 -->
         Vue.directive('color-swatch', function(el, binding){
@@ -247,9 +233,9 @@
                 }
         }
 
-- [官方文档]: https://cn.vuejs.org/v2/guide/custom-directive.html
+- [官方文档](https://cn.vuejs.org/v2/guide/custom-directive.html)
 
-## Vue实例的生命周期
+## `Vue`实例的生命周期
 
 - 什么是生命周期：从Vue实例创建，运行，到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期。
 
@@ -258,34 +244,34 @@
 - 主要的生命周期函数分类：
 
         - 创建期间的生命周期函数
-                - beforeCreate：实例刚在内存中被创建出来，此时，还没有初始化好 data 和 methods 属性；
-                - created：实例已经在内存中创建成功，此时 data 和 methods 已经创建成功，未开始编译模板；
-                - beforeMount：此时已经完成了模板的编译，但是还没有挂载到页面中；
-                - mounted：此时已经将编译好的模板挂载到页面指定的容器中显示。
+                - `beforeCreate`：实例刚在内存中被创建出来，此时，还没有初始化好 data 和 methods 属性；
+                - `created`：实例已经在内存中创建成功，此时 data 和 methods 已经创建成功，未开始编译模板；
+                - `beforeMount`：此时已经完成了模板的编译，但是还没有挂载到页面中；
+                - `mounted`：此时已经将编译好的模板挂载到页面指定的容器中显示。
         - 运行期间的生命周期函数
-                - beforeUpdate：状态更新之前执行此函数，此时 data中的状态值是最新的，但是页面上显示的数据还是旧的，因为此时还没有开始更新渲染 DOM 节点；
-                - updated：实例更新完毕之后调用此函数，此时 data 中的状态值和界面上显示的数据都已经完成了更新，界面已经被重新渲染好了。
+                - `beforeUpdate`：状态更新之前执行此函数，此时 data中的状态值是最新的，但是页面上显示的数据还是旧的，因为此时还没有开始更新渲染 DOM 节点；
+                - `updated`：实例更新完毕之后调用此函数，此时 data 中的状态值和界面上显示的数据都已经完成了更新，界面已经被重新渲染好了。
         - 销毁期间的生命周期函数
-                - beforeDestroy：实例销毁之前调用，在这一步，实例仍然完全可用；
-                - destroy：Vue实例销毁后调用，调用后，Vue实例指示的所有东西都会解除绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+                - `beforeDestroy`：实例销毁之前调用，在这一步，实例仍然完全可用；
+                - `destroyed`：Vue实例销毁后调用，调用后，Vue实例指示的所有东西都会解除绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 
-## vue-resource 实现 get, post, jsonp 请求
+## `vue-resource`实现`get`,`post`,`jsonp`请求
 
-[vue-resource官网]:https://github.com/pagekit/vue-resource
+[vue-resource官网](https://github.com/pagekit/vue-resource)
 
-- 1.除了vue-resource以外，还可以使用 axios 的第三方包实现数据的请求
+- 1.除了`vue-resource`以外，还可以使用`axios`的第三方包实现数据的请求
 
 - 2.测试的URL请求资源地址：
   
-        - [get请求地址]:http://www.liulongbin.top:3005/api/getlunbo
-        - [post请求地址]:http://www.liulongbin.top:3005/api/post
-        - [jsonp请求地址]:http://www.liulongbin.top:3005/api/jsonp
+        - [get请求地址](http://www.liulongbin.top:3005/api/getlunbo)
+        - [post请求地址](http://www.liulongbin.top:3005/api/post)
+        - [jsonp请求地址](http://www.liulongbin.top:3005/api/jsonp)
 
-- 3.JSONP的实现原理
+- 3.`JSONP`的实现原理
 
-        - 由于浏览器的安全性限制，不允许AJAX访问协议不同，域名不同，端口号不同的数据接口，浏览器认为这种访问不安全；
-        - 可以通过动态创建script标签的形式，把script标签的src属性，指向数据接口的地址，因为script标签不存在跨域限制，这种数据获取方式，称作JSONP；
-        - 注意，根据JSONP的实现原理可以知晓，JSONP只支持GET请求。
+        - 由于浏览器的安全性限制，不允许`Ajax`访问协议不同，域名不同，端口号不同的数据接口，浏览器认为这种访问不安全；
+        - 可以通过动态创建script标签的形式，把script标签的src属性，指向数据接口的地址，因为script标签不存在跨域限制，这种数据获取方式，称作`JSONP`；
+        - 注意，根据`JSONP`的实现原理可以知晓，JSONP只支持`GET`请求。
         - 具体实现过程：
 
                 - 先在客户端定义一个回调方法，预定义对数据的操作；
@@ -293,7 +279,7 @@
                 - 服务器的数据接口组织好要发送给客户端的数据，再拿着客户端传递过来的回调方法名称，拼接出一个调用这个方法的字符串，发送给客户端去解析执行；
                 - 客户端拿到服务器返回的字符串后，当做javascript脚本去解析执行，这样就能够拿到JSONP的数据了。
 
-- 4.通过Node.js来手动实现一个JSONP的请求例子
+- 4.通过`Node.js`来手动实现一个`JSONP`的请求例子
 
         <!-- 导入解析URL地址的核心模块 -->
         const http = require('http');
@@ -311,9 +297,9 @@
                 console.log('server listen at http://127.0.0.1:3000')
         })
 
-- 5.参见Node_server文件夹中的案例
+- 5.参见`Node_server`文件夹中的案例
 
-## Vue动画
+## `Vue`动画
 
 - 为什么要有动画：动画能够提高用户的体验，帮助用户更好地理解页面中的功能
 
@@ -355,7 +341,7 @@
 
 ### 使用第三方类
 
-- Animate实例
+- `Animate`实例
 
          <transition enter-active-class="bounceIn" leave-active-class="bounceOut"
         :duration="{enter:200, leave:400}">
@@ -364,7 +350,7 @@
 
 ### 列表动画
 
-- transition-group实例
+- `transition-group`实例
 
          <!-- 实现列表过渡的时候，如果需要过渡的元素是 v-for 渲染出来的，不能使用 transition 包裹
         需要使用 transition-group -->
@@ -376,11 +362,11 @@
                 <li v-for="(item, i) in list" :key="item.id" @click="del(i)">
                         {{ item.id }} --- {{ item.name }}
                 </li>
-            </transition-group>
+        </transition-group>
 
-## Vue组件
+## `Vue`组件
 
-- 什么是组件：组件的出现，就是为了拆分Vue实例的代码量，能够让我们以不同的组件，来划分不同的功能模块。我们需要什么样的功能，就可以去调用对应的组件即可。
+- 什么是组件：组件的出现，就是为了拆分`Vue实`例的代码量，能够让我们以不同的组件，来划分不同的功能模块。我们需要什么样的功能，就可以去调用对应的组件即可。
 
 ### 组件化和模块化的不同
   
@@ -389,14 +375,14 @@
   
 - ### 全局组件定义的三种方法
 
-- 1.使用Vue.extend配合Vue.component方法：
+- 1.使用`Vue.extend`配合`Vue.component`方法：
 
         var login = Vue.extend({
                 template: '<h1>登录</h1>’
         });
         Vue.component('login', login)
 
-- 2.直接使用Vue.component方法
+- 2.直接使用`Vue.component`方法
 
         Vue.component('register', {
                 template: '<h1>注册</h1>'
@@ -426,7 +412,7 @@
                 }
             }
 
-### 组件中的data与methods
+### 组件中的`data`与`methods`
 
 - 案例
 
@@ -468,7 +454,7 @@
         })
         </script>
 
-### 组件的切换
+### `component`的切换
 
 - v-if/else方式实现两个组件间的切换
 
@@ -480,7 +466,7 @@
         <login v-if="flag"></login>
         <register v-else="flag"></register>
 
-- 多个组件使用component标签切换
+- 多个组件使用`component`标签切换
 
         <div id="app">
         <a href="" @click.prevent="comName='login'">登录</a>
@@ -504,7 +490,7 @@
 
 ### 父组件向子组件传值
 
-- 1.组件实例定义方式，注意：一定要使用 props 属性定义父组件传递过来的数据
+- 1.组件实例定义方式，注意：一定要使用`props`属性定义父组件传递过来的数据
 
         <script>
                 <!-- 创建Vue实例，得到ViewModel -->
@@ -522,7 +508,7 @@
         });
         </script>
 
-- 2.使用v-bind或简化指定：，将数据传递到子组件中
+- 2.使用`v-bind`或简化指定：，将数据传递到子组件中
 
         <div id="app">
                 <son :finfo="msg"></son>
@@ -575,7 +561,7 @@
         })
         </script>
 
-### 组件中data和prop的区别
+### 组件中`data`和`prop`的区别
 
          var vm = new Vue({
             el:"#app",
@@ -650,17 +636,17 @@
         });
         </script>
 
-## 路由
+## 路由`router`
 
 - 后端路由：对于普通网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；该对应关系就是 路由（Router）
 
 - 前端路由：对于单页面应用程序来说，主要通过URL中的hash(#号，也称作“锚点”)来实现不同页面之间的切换，同时，hash有一个特点：HTTP请求中不会包含hash相关的内容；所以，单页面程序中的页面跳转`主要用hash实现`；
 
-- 在单页面应用程序中，这种通过hash改变来切换页面的方式，称作前端路由（区别于后端路由）；
+- 在单页面应用程序中，这种通过`hash`改变来切换页面的方式，称作前端路由（区别于后端路由）；
 
 - [参考网站](https://www.cnblogs.com/joyho/articles/4430148.html)
 
-### vue-router的基本使用
+### `vue-router`的基本使用
 
 - 1.导入vue-router组件类库
 
@@ -690,7 +676,7 @@
                 template:'<h1>注册组件</h1>'
         });
 
-- 5.创建一个路由router实例，通过router属性来定义路由匹配规则
+- 5.创建一个路由`router`实例，通过router属性来定义路由匹配规则
 
         <!-- 5.创建一个路由router实例，通过router属性来定义路由匹配规则 -->
         var routerObj = new Vue({
@@ -708,12 +694,12 @@
             router:routerObj,
         })
 
-### 使用tag属性指定router-link渲染的标签类型
+### 使用`tag`属性指定`router-link`渲染的标签类型
 
         <router-link to="/login" tag="span">登录</router-link>
         <router-link to="/register">注册</router-link>
 
-### 设置路由重定向
+### 设置路由重定向`redirect`
 
         {path:'/', redirect:'/login'}
 
@@ -803,13 +789,13 @@
 
 ### 监听名称案例
 
-- methods方式
+- `methods`方式
 
         getFullname(){
                 this.fullname = this.firstname + '-' + this.lastname
         }
 
-- watch方式
+- `watch`方式
 
          watch:{
                 firstname:function(newVal, oldVal){
@@ -820,7 +806,7 @@
                 }
         }
 
-- computed方式
+- `computed`方式
 
         'fullname':function(){
                     console.log('ok')
@@ -835,7 +821,7 @@
   
 - `watch`一个对象，键是需要观察的表达式，值是对应的回调函数，主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作，可以看作是`computed`和`methods`的结合体。
 
-## nrm的安装使用
+## `nrm`的安装使用
 
 - [NPM镜像源地址](https://registry.npmjs.org/)
 
@@ -849,49 +835,49 @@
         - 2.使用`nrm ls`查看当前所有可用的镜像源地址以及当前所使用的镜像源地址；
         - 3.使用`nrm use npm`或`nrm use taobao`切换不同的镜像源地址；
 
-- 注意：nrm只是单纯地提供了几个常用的下载包的URL地址，并能够让我们在这几个地址之间，很方便地进行切换；但是我们每次安装包的时候，使用的装包工具，都是 npm，nrm只是改变了 npm 的装包地址；
+- 注意：`nrm`只是单纯地提供了几个常用的下载包的`URL`地址，并能够让我们在这几个地址之间，很方便地进行切换；但是我们每次安装包的时候，使用的装包工具，都是`npm`，`nrm`只是改变了`npm`的装包地址；
 
 ### 相关文件
 
 - [URL中的hash(#)](http://www.cnblogs.com/joyho/articles/4430148.html)
 
-### 常用的npm命令行总结
+### 常用的`npm`命令行总结
 
-- 它是世界上最大的软件注册表，每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
+- 它是世界上最大的软件注册表，每星期大约有`30`亿次的下载量，包含超过`600000`个包`package`（代码模块）。来自各大洲的开源软件开发者使用`npm`互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。[npm中文文档](https://www.npmjs.cn)
 
-- npm一键安装package.json里的依赖文件
+- `npm`一键安装`package.json`里的依赖文件
 
-        - npm install 默认安装package.json中的所有模块；
-        - npm install --dependencies 只想安装dependencies中的内容；
-        - npm install --devDependencies 只想安装devDependencies中的内容；
+        - `npm install` 默认安装package.json中的所有模块；
+        - `npm install --dependencies` 只想安装dependencies中的内容；
+        - `npm install --devDependencies` 只想安装devDependencies中的内容；
         - 注意：这里安装的package.json中所有依赖的模块，都是package.json中指定的版本。如果需要安装最新的版本则要：
-            - npm update <package_name>//要安装的模块的名字 
+            - `npm update <package_name>` 要安装的模块的名字 
 
-- npm安装第三方包
+- `npm`安装第三方包
 
-        - npm init //在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
-        - npm install xxx  //安装模块如不指定版本号，默认会安装最新的版本，安装但不写入package.json
-        - npm install xxx 0.0.1  //安装指定版本的模块
-        - npm install --save xxx //--save相当于-s，安装并把模块的版本信息保存到dependencies（生产环境依赖）中，即你的package.json文件的dependencies字段中
-        - npm install --global xxx // --global相当于-g 全局安装
-        - npm install --save-dev xxx // --save-dev相当于-d，安装并把模块版本信息保存到devDependencies（开发环境依赖）中，即你的package.json文件的devDependencies字段中
-        - npm install --save-optional xxx // --save-optional相当于-o，安装并把模块安装到optionalDependencies（可选环境依赖）中，即你的package.json文件的optionalDependencies字段中
-        - npm install --save-exact xxx // --save-exact相当于-e，精确的安装指定版本的模块，dependencies字段里每个模块版本号前面的^会取消掉
+        - `npm init` 在当前目录生成一个package.json文件，这个文件中会记录一些关于项目的信息，比如：项目的作者，git地址，入口文件、命令设置、项目名称和版本号等等，一般情况下这个文件是必须要有的，方便后续的项目添加和其他开发人员的使用。
+        - `npm install xxx` 安装模块如不指定版本号，默认会安装最新的版本，安装但不写入package.json
+        - `npm install xxx 0.0.1` 安装指定版本的模块
+        - `npm install --save xxx` --save相当于-s，安装并把模块的版本信息保存到dependencies（生产环境依赖）中，即你的package.json文件的dependencies字段中
+        - `npm install --global xxx`  --global相当于-g 全局安装
+        - `npm install --save-dev xxx` --save-dev相当于-d，安装并把模块版本信息保存到devDependencies（开发环境依赖）中，即你的package.json文件的devDependencies字段中
+        - `npm install --save-optional xxx`  --save-optional相当于-o，安装并把模块安装到optionalDependencies（可选环境依赖）中，即你的package.json文件的optionalDependencies字段中
+        - `npm install --save-exact xxx`  --save-exact相当于-e，精确的安装指定版本的模块，dependencies字段里每个模块版本号前面的^会取消掉
 
-- npm升降包版本
+- `npm`升降包版本
 
-        - npm list <package> 查看现有package版本
-        - npm install --save <package>@x.y.z  升级/降级到指定版本
+        - `npm list <package>` 查看现有package版本
+        - `npm install --save <package>@x.y.z`  升级/降级到指定版本
 
-- npm删除包
+- `npm`删除包
 
-        - 删除全局模块：npm uninstall -g <package>
+        - 删除全局模块：`npm uninstall -g <package>`
 
-        - 删除本地模块：npm uninstall 模块，删除本地模块时你应该思考的问题：是否将在package.json上的相应依赖信息也消除？
+        - 删除本地模块：`npm uninstall`模块，删除本地模块时你应该思考的问题：是否将在`package.json`上的相应依赖信息也消除？
 
-                - npm uninstall <package>：删除模块，但不删除模块留在package.json中的对应信息
-                - npm uninstall <package> --save 删除模块，同时删除模块留在package.json中dependencies下的对应信息
-                - npm uninstall <package> --save-dev 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
+                - `npm uninstall <package>` 删除模块，但不删除模块留在`package.json`中的对应信息
+                - `npm uninstall <package> --save` 删除模块，同时删除模块留在package.json中dependencies下的对应信息
+                - `npm uninstall <package> --save-dev` 删除模块，同时删除模块留在package.json中devDependencies下的对应信息
 
 ## Webpack
 
@@ -918,19 +904,19 @@
         - 1.合并、压缩、精灵图、图片的Base64编码；
         - 2.可以使用之前学过的requireJS，也可以使用webpack解决各个包之间的复杂依赖关系
 
-- 什么是Webpack?
+- 什么是`Webpack`?
 
         - webpack是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具；
 
 ### 如何完美实现上述的两种解决方案
 
-- 1.使用Gulp，是基于task任务的；
+- 1.使用`Gulp`，是基于`task`任务的；
 
-- 2.使用Webpack，是基于整个项目进行构建的；
+- 2.使用`Webpack`，是基于整个项目进行构建的；
 
-- 借助于webpack前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能
+- 借助于`webpack`前端自动化构建工具，可以完美实现资源的合并、打包、压缩、混淆等诸多功能
 
-- 根据官网的图片介绍webpack打包的过程
+- 根据官网的图片介绍`webpack`打包的过程
 
 - [Webpack官网](http://webpack.github.io/)
 
@@ -942,10 +928,10 @@
 
 ### webpack 4.x安装方式
 
-- webpack 4.x 将 webpack-cli 分离出去了，需要二次配置安装， webpack3.x 的显著区别
+- `webpack 4.x `将`webpack-cli`分离出去了，需要二次配置安装，`webpack3.x`的显著区别
 - [参考博客](https://www.jianshu.com/p/c094e42b0bc2)
 
-### 初步使用webpack打包构建列表隔行变色案例
+### 初步使用`webpack`打包构建列表隔行变色案例
 
         <!-- 导入jQuery类库 -->
         import $ from 'jquery'
@@ -954,7 +940,7 @@
         <!-- 设置奇数行背景色 -->
         $('#list li:odd').css('backgroundColor', 'pink');
 
-### webpack 4.x基本配置总结
+### `webpack 4.x`基本配置总结
 
 - 新建一个本地磁盘上的项目根目录文件夹 `WebpackStudy`；
 
@@ -989,7 +975,7 @@
                 filename: 'bundle.js'
         },
 
-- 当在 TERMINAL 命令行输入命令 'webpack'，可以半自动地在`dist`文件夹下生成`bunde.js`；它做的几步事情：
+- 当在`TERMINAL`命令行输入命令`webpack`，可以半自动地在`dist`文件夹下生成`bunde.js`；它做的几步事情：
         - 1. 首先，webpack发现，我们并没有通过命令的形式，给它指定入口和出口；
         - 2. webpack 就会去项目的 根目录 中找到 'webpack.config.js' 的配置文件；
         - 3. 当找到配置文件后，webpack 会去解析执行它，当解析执行完成后，就得到了配置文件中导出的配置对象；
@@ -1029,7 +1015,7 @@
                         <!-- new 一个 热更新 的模块对象 -->
                         new webpack.HotModuleReplacementPlugin()
                 ],
-        然后在控制台执行：npm run dev2 （繁琐，不推荐使用）；
+        然后在控制台执行：`npm run dev2`（繁琐，不推荐使用）；
 
 - 直接根据本地磁盘上的`index.html`生成计算机内存中的`index.html`文件：
 
@@ -1059,7 +1045,7 @@
         */
         - 4. 最后在控制台运行：npm run dev 即可自动打开内存中的 index.html
 
-### webpack配置css-loader、less-loader或scss.loader
+### `webpack`配置`css-loader`、`less-loader`或`scss.loader`
 
 - 在`css`文件夹下分别创建`index.css`,`index.less`,`index.scss`，webpack并不能独立解析，使用loader管理`main.js`文件中的`.css`,`.less`,`.scss`文件；原因和具体步骤在于：
 
@@ -1090,7 +1076,7 @@
                    3. 在调用loader的时候，是从后往前调用的；
                    4. 当最后的一个loader调用完毕，会把处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js 中去；
 
-### webpack中配置url-loader
+### `webpack`中配置`url-loader`
 
 - 默认情况下，webpack无法处理css文件中的url地址，不管是 图片 还是 字体库；
 
@@ -1110,9 +1096,9 @@
 
 - `cnpm i bootstrap -S`本地生成环境下安装`bootstrap`框架，并在`index.html`页面中引入`<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>`，然后在`webpack.config.js`中配置解析字体文件的loader：`{test:/\.(ttf|eot|svg|woff|woff2)$/, use:'url-loader'}`，最后在控制台运行`npm run dev`可以在页面中看到heart。
 
-### webpack中配置babel-loader
+### `webpack`中配置`babel-loader`
 
-- ES6中面向对象高级class语句的解析，webpack默认只能处理一部分ES6新语法，必须安装配置`Babel`才能正常处理一些更高级的ES6或者ES7语法；当第三方loader把高级原发转为低级语法之后，会把结果较为webpack去打包到bundle.js中；
+- ES6中面向对象高级class语句的解析，`webpack`默认只能处理一部分ES6新语法，必须安装配置`Babel`才能正常处理一些更高级的ES6或者ES7语法；当第三方loader把高级原发转为低级语法之后，会把结果较为webpack去打包到`bundle.js`中；
 
 - 现在(2019.9.19)`babel-loader`已经更新到`version 8`，合适的安装命令是：   `cnpm i babel-core babel-loader@7 babel-plugin-transform-runtime -D`,`cnpm i babel-preset-env babel-preset-stage-0 -D`，两条命令两套包；
 
@@ -1136,15 +1122,15 @@
         - `babel-preset-env babel-preset-stage-0`是babel语法字典，提供了具体语法之间的对应关系；
         - `babel-preset-env`是新的ES语法插件，之它出现之前安装的语法包是`babel-preset-es2015`，`babel-preset-env`包含所有与ES***相关的语法；
 
-## Vue中渲染组件的render函数
+## Vue中渲染组件的`render`函数
 
 - 使用components渲染组件之后替换页面中相应位置处的内容，相对于常量表达式；
 
 - 使用render中createElements渲染组件会把vm挂载对象vm中所有内容均清空，只保留组件并放到指定位置，相当于v-text；一个app中只能渲染一个component；
 
-### webpack构建的项目中进行Vue开发一般步骤
+### `webpack`构建的项目中进行Vue开发一般步骤
 
-- webpack中使用`import Vue from 'vue'`导入的Vue构造函数功能不完整，只提供了阉割版的`runtime-only`的方式，并没有提供像网页中以`script`引入的完整版本功能；
+- `webpack`中使用`import Vue from 'vue'`导入的Vue构造函数功能不完整，只提供了阉割版的`runtime-only`的方式，并没有提供像网页中以`script`引入的完整版本功能；
 
 - `import Vue from 'vue'`与Node中`var Vue = require('Vue')`的包（package）查找规则完全一样：
 
@@ -1172,7 +1158,7 @@
                 return createElements(login)
         }
 
-- 在webpack中配置.vue组件页面的解析
+- 在`webpack`中配置.vue组件页面的解析
 
         - 1. 运行`npm i vue -S`将vue安装为运行依赖；
         - 2. 运行`cnpm i vue-loader vue-template-compiler -D`将解析转换vue的安装包为开发依赖；
@@ -1189,7 +1175,7 @@
 
 ### `export default`和`export`的使用
 
-- 和Node类似，在一个模块中，ES6可以同时使用`export default`和`export`向外暴露成员；
+- 和`Node`类似，在一个模块中，ES6可以同时使用`export default`和`export`向外暴露成员；
 
 - `export default`向外暴露的成员，可以使用任意的变量来接收：
 
@@ -1207,7 +1193,7 @@
 
 - 注意：使用`export`导出的成员，必须严格按照导出时候的名称，来使用`{}`接收；但是，如果想换个名称来接收，可以使用`as`取别名，再进行二次使用；
 
-### webpack使用vue-router
+### `webpack`使用`vue-router`
 
 - 1.导入`vue-router`包
 
@@ -1305,15 +1291,15 @@
                 })
         })
 
-- EMCAScript 6中的`Promise`对象，可以单纯地解决回调地狱的问题，但并不能减少代码量；它是将多层的嵌套回调改成串联调用；
+- `EMCAScript 6`中的`Promise`对象，可以单纯地解决回调地狱的问题，但并不能减少代码量；它是将多层的嵌套回调改成串联调用；
 
-- Promise()符合首字母大写的即是`构造函数`的特点，可以new Promise()就可以得到它的一个实例；Promise对象身上有两个重要的函数，`resolve`(成功之后执行的回调函数)和`reject`(失败之后执行的回调函数)；
+- `Promise()`符合首字母大写的即是`构造函数`的特点，可以`new Promise()`就可以得到它的一个实例；`Promise`对象身上有两个重要的函数，`resolve`(成功之后执行的回调函数)和`reject`(失败之后执行的回调函数)；
 
-- 在Promise()构造函数`Prototype`属性内部，有一个`.then()`方法；只要是Promise构造函数创建的实例，都可以访问到它；
+- 在`Promise()`构造函数`Prototype`属性内部，有一个`.then()`方法；只要是Promise构造函数创建的实例，都可以访问到它；
 
-- 如果Promise()表示一个异步操作，每当我们`new`一个实例，就表示创建一个具体的异步操作；既然它是一个异步操作，其结果只有两种状态：异步执行成功/失败；
+- 如果`Promise()`表示一个异步操作，每当我们`new`一个实例，就表示创建一个具体的异步操作；既然它是一个异步操作，其结果只有两种状态：异步执行成功/失败；
 
-- 由于Promise()实例是一个异步操作，所以内部拿到操作的结果后，无法使用`return`把操作的结果返回给调用发起者；这时候，只能使用对应回调函数的形式，把成功或失败的操作结果返回给调用发起者；可以在该Promise实例上，调用.then()方法，预先给这个异步操作指定`成功(resolve)`或`失败(reject)`的回调函数；具体使用代码如下：
+- 由于`Promise()`实例是一个异步操作，所以内部拿到操作的结果后，无法使用`return`把操作的结果返回给调用发起者；这时候，只能使用对应回调函数的形式，把成功或失败的操作结果返回给调用发起者；可以在该`Promise`实例上，调用`.then()`方法，预先给这个异步操作指定`成功(resolve)`或`失败(reject)`的回调函数；具体使用代码如下：
 
         <!-- promise代表形式上的一个异步操作，只知道是异步操作，但不知道具体是读文件还是发起Ajax操作；function内部即是具体的异步操作内容 -->
         const fs = require('fs')
@@ -1326,7 +1312,7 @@
                 })
         })
 
-- 在JavaScript中只有function内部的代码才能按需求调用执行，其他的脚本代码是会立即执行的；所以我们需要将上面的promise实例封装到function中，实现`给定文件路径函数一调用即执行一次异步的操作`的功能：
+- 在`JavaScript`中只有`function`内部的代码才能按需求调用执行，其他的脚本代码是会立即执行的；所以我们需要将上面的`promise`实例封装到`function`中，实现`给定文件路径函数一调用即执行一次异步的操作`的功能：
 
         const fs = require('fs')
 
@@ -1368,7 +1354,7 @@
                 console.log(err.message)
         })
 
-- 使用Promise解决异步回调地狱，JavaScript代码演示：
+- 使用`Promise`解决异步回调地狱，`JavaScript`代码演示：
 
         const fs = require('fs')
 
@@ -1416,7 +1402,7 @@
                console.log(data + '----') 
         })
 
-- 当第一个.then执行错误的情况呢？
+- 当第一个`.then()`执行错误的情况呢？
 
         const fs = require('fs')
 
@@ -1480,7 +1466,7 @@
 
         <!-- 次数`catch`的作用是：若前面任何一个`.then()`执行失败，都会立即终止所有的`promise`执行，并且立即将异常`err`抛出 -->
 
-- jQuery中的`Ajax`支持`Promise`功能
+- `jQuery`中的`Ajax`支持`Promise`功能
 
         - `npm init -y`初始化node_modules下载环境；
         - `cnpm i jquery -S`安装jQuery的第三方包到生产环境；
@@ -1505,7 +1491,7 @@
         </script>
         </body>
 
-## Vuex
+## `Vuex`
 
 - `Vuex` 是一个专为`Vue.js`应用程序开发的状态管理模式；
 
